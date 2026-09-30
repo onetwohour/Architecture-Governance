@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-plugin-manifest.json",
+  "name": "architecture-governance",
+  "displayName": "Architecture Governance",
+  "version": "1.0.0",
+  "description": "Architecture and specification governance with semantic ownership, explicit contracts, stable documentation rules, evidence-backed probes, and disciplined completion gates.",
+  "author": {
+    "name": "Onetwohour"
+  },
+  "repository": "https://github.com/onetwohour/Architecture-Governance",
+  "license": "Apache-2.0",
+  "keywords": [
+    "architecture",
+    "governance",
+    "specification",
+    "contracts",
+    "review",
+    "evidence"
+  ]
+}
