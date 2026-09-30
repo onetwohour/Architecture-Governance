@@ -49,32 +49,37 @@ req(len(active) == len(set(active)), "duplicate compact rule IDs")
 
 aliases_path = ROOT / "references" / "aliases.json"
 req(aliases_path.exists(), "aliases.json missing")
+alias_rules = []
 if aliases_path.exists():
-    aliases = json.loads(aliases_path.read_text(encoding="utf-8")).get("rules", [])
-    alias_ids = [r.get("id") for r in aliases]
-    req(len(aliases) == 83, f"expected 83 alias entries, found {len(aliases)}")
+    alias_rules = json.loads(aliases_path.read_text(encoding="utf-8")).get("rules", [])
+    alias_ids = [r.get("id") for r in alias_rules]
+    req(len(alias_rules) == 83, f"expected 83 alias entries, found {len(alias_rules)}")
     req(set(alias_ids) == set(active), "active rule IDs and alias IDs differ")
-    current_ids = [r.get("current_id") for r in aliases]
+    current_ids = [r.get("current_id") for r in alias_rules]
     req(len(current_ids) == len(set(current_ids)), "duplicate current IDs in aliases")
-    for r in aliases:
+    for r in alias_rules:
         req(r.get("current_id") in r.get("aliases", []), f"{r.get('id')}: current_id missing from aliases")
-        req(bool(r.get("sources")), f"{r.get('id')}: source provenance missing")
+        origin = r.get("origin")
+        req(origin in {"source-corpus", "post-extraction-policy-addition"}, f"{r.get('id')}: invalid origin")
+        if origin == "source-corpus":
+            req(bool(r.get("sources")), f"{r.get('id')}: source-corpus rule missing provenance")
+        else:
+            req(not r.get("sources"), f"{r.get('id')}: post-extraction rule must not fabricate source lines")
 
 legacy_registry = ARCHIVE / "rule-registry-v1.1.ko.json"
 req(legacy_registry.exists(), "archived v1.1 registry missing")
-if legacy_registry.exists() and aliases_path.exists():
+if legacy_registry.exists() and alias_rules:
     old_rules = json.loads(legacy_registry.read_text(encoding="utf-8")).get("rules", [])
     req(len(old_rules) == 83, f"archived registry must contain 83 rules, found {len(old_rules)}")
     old_ids = {r.get("id") for r in old_rules}
-    mapped_ids = {r.get("current_id") for r in json.loads(aliases_path.read_text(encoding="utf-8")).get("rules", [])}
+    mapped_ids = {r.get("current_id") for r in alias_rules}
     req(old_ids == mapped_ids, "archived registry IDs are not fully mapped")
 
 writing = refs["writing"].read_text(encoding="utf-8") if refs["writing"].exists() else ""
 req("D13 MUST" in writing and "anthropomorphism" in writing.lower(), "D13 anthropomorphism rule missing")
 req("D14 SHOULD" in writing and "natural prose" in writing.lower(), "D14 natural prose rule missing")
 
-for rel in ["archive/rule-registry-v1.1.ko.json", "references/aliases.json"]:
-    req((ROOT / rel).exists(), f"missing {rel}")
+req((ROOT / "references" / "aliases.json").exists(), "missing references/aliases.json")
 
 if errors:
     print("FAIL")

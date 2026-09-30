@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "note": "Compact IDs are used by model-facing references. Every previous rule ID and source citation is preserved here. The full v1.1 registry is archived verbatim.",
+  "note": "Compact IDs are used by model-facing references. Every previous rule ID and source citation is preserved. D13/D14 were added after the source-corpus extraction and therefore have no fabricated source-line citation.",
   "rules": [
     {
       "id": "W1",
@@ -10,6 +10,7 @@
         "AM-003",
         "AP-001"
       ],
+      "origin": "source-corpus",
       "sources": [
         {
           "source": "CLAUDE.md",
@@ -39,6 +40,7 @@
       "aliases": [
         "R-WORK-002"
       ],
+      "origin": "source-corpus",
       "sources": [
         {
           "source": "docs/development/document-system.md",
@@ -57,6 +59,7 @@
         "ER-003",
         "CG-001"
       ],
+      "origin": "source-corpus",
       "sources": [
         {
           "source": "CLAUDE.md",
@@ -102,6 +105,7 @@
         "R-OWN-002",
         "AM-002"
       ],
+      "origin": "source-corpus",
       "sources": [
         {
           "source": "docs/ARCHITECTURE.md",
@@ -133,6 +137,7 @@
         "AM-004",
         "CG-002"
       ],
+      "origin": "source-corpus",
       "sources": [
         {
           "source": "CLAUDE.md",
@@ -164,6 +169,7 @@
         "CG-018",
         "CC-007"
       ],
+      "origin": "source-corpus",
       "sources": [
         {
           "source": "CLAUDE.md",
@@ -219,6 +225,7 @@
         "R-OWN-005",
         "CG-018"
       ],
+      "origin": "source-corpus",
       "sources": [
         {
           "source": "CLAUDE.md",
@@ -243,6 +250,7 @@
       "aliases": [
         "R-OWN-006"
       ],
+      "origin": "source-corpus",
       "sources": [
         {
           "source": "docs/principles/constitution.md",
@@ -262,6 +270,7 @@
       "aliases": [
         "R-OWN-007"
       ],
+      "origin": "source-corpus",
       "sources": [
         {
           "source": "docs/principles/constitution.md",
@@ -287,6 +296,7 @@
         "R-OWN-008",
         "AM-016"
       ],
+      "origin": "source-corpus",
       "sources": [
         {
           "source": "docs/principles/constitution.md",
@@ -303,6 +313,7 @@
         "AP-013",
         "CG-010"
       ],
+      "origin": "source-corpus",
       "sources": [
         {
           "source": "CLAUDE.md",
@@ -353,6 +364,7 @@
         "R-OWN-010",
         "AM-024"
       ],
+      "origin": "source-corpus",
       "sources": [
         {
           "source": "docs/principles/constitution.md",
@@ -367,6 +379,7 @@
       "aliases": [
         "R-OWN-011"
       ],
+      "origin": "source-corpus",
       "sources": [
         {
           "source": "docs/principles/constitution.md",
@@ -381,6 +394,7 @@
       "aliases": [
         "R-OWN-012"
       ],
+      "origin": "source-corpus",
       "sources": [
         {
           "source": "docs/ARCHITECTURE.md",
@@ -400,6 +414,7 @@
         "AP-007",
         "CG-017"
       ],
+      "origin": "source-corpus",
       "sources": [
         {
           "source": "CLAUDE.md",
@@ -438,6 +453,7 @@
         "AP-004",
         "CG-003"
       ],
+      "origin": "source-corpus",
       "sources": [
         {
           "source": "CLAUDE.md",
@@ -478,6 +494,7 @@
         "R-SEM-002",
         "AM-007"
       ],
+      "origin": "source-corpus",
       "sources": [
         {
           "source": "CLAUDE.md",
@@ -501,6 +518,7 @@
         "CG-001",
         "CG-004"
       ],
+      "origin": "source-corpus",
       "sources": [
         {
           "source": "CLAUDE.md",
@@ -528,6 +546,7 @@
         "CG-006",
         "CG-009"
       ],
+      "origin": "source-corpus",
       "sources": [
         {
           "source": "CLAUDE.md",
@@ -554,6 +573,7 @@
         "AM-010",
         "AP-006"
       ],
+      "origin": "source-corpus",
       "sources": [
         {
           "source": "CLAUDE.md",
@@ -576,6 +596,7 @@
         "AP-014",
         "CG-005"
       ],
+      "origin": "source-corpus",
       "sources": [
         {
           "source": "CLAUDE.md",
@@ -602,6 +623,7 @@
         "AM-012",
         "CG-005"
       ],
+      "origin": "source-corpus",
       "sources": [
         {
           "source": "CLAUDE.md",
@@ -628,6 +650,7 @@
         "AM-013",
         "CG-006"
       ],
+      "origin": "source-corpus",
       "sources": [
         {
           "source": "CLAUDE.md",
@@ -664,6 +687,7 @@
         "AM-014",
         "CG-008"
       ],
+      "origin": "source-corpus",
       "sources": [
         {
           "source": "CLAUDE.md",
@@ -689,6 +713,7 @@
         "R-SEM-010",
         "AM-015"
       ],
+      "origin": "source-corpus",
       "sources": [
         {
           "source": "docs/principles/constitution.md",
@@ -705,6 +730,7 @@
         "AM-019",
         "AP-012"
       ],
+      "origin": "source-corpus",
       "sources": [
         {
           "source": "docs/development/document-system.md",
@@ -732,6 +758,7 @@
         "AP-013",
         "CG-010"
       ],
+      "origin": "source-corpus",
       "sources": [
         {
           "source": "CLAUDE.md",
@@ -762,6 +789,7 @@
         "R-SEM-013",
         "AM-021"
       ],
+      "origin": "source-corpus",
       "sources": [
         {
           "source": "docs/authoring/authoring-model.md",
@@ -787,6 +815,7 @@
         "R-SEM-014",
         "AM-022"
       ],
+      "origin": "source-corpus",
       "sources": [
         {
           "source": "docs/ARCHITECTURE.md",
@@ -808,6 +837,7 @@
         "AM-023",
         "CG-007"
       ],
+      "origin": "source-corpus",
       "sources": [
         {
           "source": "CLAUDE.md",
@@ -827,6 +857,7 @@
       "aliases": [
         "R-SEM-016"
       ],
+      "origin": "source-corpus",
       "sources": [
         {
           "source": "docs/principles/constitution.md",
@@ -841,6 +872,7 @@
       "aliases": [
         "R-DATA-001"
       ],
+      "origin": "source-corpus",
       "sources": [
         {
           "source": "docs/principles/constitution.md",
@@ -856,6 +888,7 @@
         "R-DATA-002",
         "AP-014"
       ],
+      "origin": "source-corpus",
       "sources": [
         {
           "source": "CLAUDE.md",
@@ -880,6 +913,7 @@
       "aliases": [
         "R-SEC-001"
       ],
+      "origin": "source-corpus",
       "sources": [
         {
           "source": "docs/principles/constitution.md",
@@ -900,6 +934,7 @@
         "R-DEC-001",
         "DR-001"
       ],
+      "origin": "source-corpus",
       "sources": [
         {
           "source": "CLAUDE.md",
@@ -920,6 +955,7 @@
         "R-DEC-002",
         "DR-002"
       ],
+      "origin": "source-corpus",
       "sources": [
         {
           "source": "docs/ARCHITECTURE.md",
@@ -945,6 +981,7 @@
         "R-DEC-003",
         "DR-003"
       ],
+      "origin": "source-corpus",
       "sources": [
         {
           "source": "CLAUDE.md",
@@ -971,6 +1008,7 @@
         "DR-004",
         "CG-015"
       ],
+      "origin": "source-corpus",
       "sources": [
         {
           "source": "CLAUDE.md",
@@ -996,6 +1034,7 @@
         "R-DEC-005",
         "DR-005"
       ],
+      "origin": "source-corpus",
       "sources": [
         {
           "source": "docs/principles/change-and-self-correction.md",
@@ -1011,6 +1050,7 @@
         "R-DEC-006",
         "DR-006"
       ],
+      "origin": "source-corpus",
       "sources": [
         {
           "source": "docs/principles/change-and-self-correction.md",
@@ -1026,6 +1066,7 @@
         "R-DEC-007",
         "DR-007"
       ],
+      "origin": "source-corpus",
       "sources": [
         {
           "source": "CLAUDE.md",
@@ -1051,6 +1092,7 @@
         "R-DEC-008",
         "DR-008"
       ],
+      "origin": "source-corpus",
       "sources": [
         {
           "source": "docs/principles/product-and-decision-policy.md",
@@ -1067,6 +1109,7 @@
         "DR-009",
         "AP-009"
       ],
+      "origin": "source-corpus",
       "sources": [
         {
           "source": "docs/principles/product-and-decision-policy.md",
@@ -1083,6 +1126,7 @@
         "DR-012",
         "AP-002"
       ],
+      "origin": "source-corpus",
       "sources": [
         {
           "source": "CLAUDE.md",
@@ -1103,6 +1147,7 @@
         "R-DEC-011",
         "DR-013"
       ],
+      "origin": "source-corpus",
       "sources": [
         {
           "source": "CLAUDE.md",
@@ -1129,6 +1174,7 @@
         "ER-001",
         "CC-001"
       ],
+      "origin": "source-corpus",
       "sources": [
         {
           "source": "CLAUDE.md",
@@ -1154,6 +1200,7 @@
         "R-DOC-002",
         "ER-004"
       ],
+      "origin": "source-corpus",
       "sources": [
         {
           "source": "docs/development/document-system.md",
@@ -1174,6 +1221,7 @@
         "R-DOC-003",
         "ER-006"
       ],
+      "origin": "source-corpus",
       "sources": [
         {
           "source": "CLAUDE.md",
@@ -1195,6 +1243,7 @@
         "ER-007",
         "ER-017"
       ],
+      "origin": "source-corpus",
       "sources": [
         {
           "source": "docs/development/document-system.md",
@@ -1215,6 +1264,7 @@
         "R-DOC-005",
         "ER-008"
       ],
+      "origin": "source-corpus",
       "sources": [
         {
           "source": "docs/development/document-system.md",
@@ -1230,6 +1280,7 @@
         "R-DOC-006",
         "ER-009"
       ],
+      "origin": "source-corpus",
       "sources": [
         {
           "source": "docs/development/document-system.md",
@@ -1245,6 +1296,7 @@
         "R-DOC-007",
         "ER-010"
       ],
+      "origin": "source-corpus",
       "sources": [
         {
           "source": "docs/development/document-system.md",
@@ -1260,6 +1312,7 @@
         "R-DOC-008",
         "ER-012"
       ],
+      "origin": "source-corpus",
       "sources": [
         {
           "source": "docs/principles/constitution.md",
@@ -1275,6 +1328,7 @@
         "R-DOC-009",
         "ER-016"
       ],
+      "origin": "source-corpus",
       "sources": [
         {
           "source": "CLAUDE.md",
@@ -1296,6 +1350,7 @@
         "ER-005",
         "CC-006"
       ],
+      "origin": "source-corpus",
       "sources": [
         {
           "source": "docs/development/document-system.md",
@@ -1311,6 +1366,7 @@
         "R-DOC-011",
         "ER-011"
       ],
+      "origin": "source-corpus",
       "sources": [
         {
           "source": "docs/development/document-system.md",
@@ -1325,6 +1381,7 @@
       "aliases": [
         "R-DOC-012"
       ],
+      "origin": "source-corpus",
       "sources": [
         {
           "source": "docs/development/document-system.md",
@@ -1344,6 +1401,7 @@
       "aliases": [
         "R-DOC-013"
       ],
+      "origin": "post-extraction-policy-addition",
       "sources": []
     },
     {
@@ -1352,6 +1410,7 @@
       "aliases": [
         "R-DOC-014"
       ],
+      "origin": "post-extraction-policy-addition",
       "sources": []
     },
     {
@@ -1362,6 +1421,7 @@
         "ER-013",
         "AP-010"
       ],
+      "origin": "source-corpus",
       "sources": [
         {
           "source": "CLAUDE.md",
@@ -1377,6 +1437,7 @@
         "R-COM-002",
         "ER-014"
       ],
+      "origin": "source-corpus",
       "sources": [
         {
           "source": "CLAUDE.md",
@@ -1392,6 +1453,7 @@
         "R-COM-003",
         "ER-015"
       ],
+      "origin": "source-corpus",
       "sources": [
         {
           "source": "CLAUDE.md",
@@ -1407,6 +1469,7 @@
         "R-COM-004",
         "CC-002"
       ],
+      "origin": "source-corpus",
       "sources": [
         {
           "source": "CLAUDE.md",
@@ -1422,6 +1485,7 @@
         "R-COM-005",
         "CC-003"
       ],
+      "origin": "source-corpus",
       "sources": [
         {
           "source": "CLAUDE.md",
@@ -1437,6 +1501,7 @@
         "R-CONV-001",
         "CC-004"
       ],
+      "origin": "source-corpus",
       "sources": [
         {
           "source": "CLAUDE.md",
@@ -1452,6 +1517,7 @@
         "R-CONV-002",
         "CC-005"
       ],
+      "origin": "source-corpus",
       "sources": [
         {
           "source": "docs/development/document-system.md",
@@ -1469,6 +1535,7 @@
         "EV-013",
         "CG-014"
       ],
+      "origin": "source-corpus",
       "sources": [
         {
           "source": "CLAUDE.md",
@@ -1515,6 +1582,7 @@
         "EV-002",
         "CG-013"
       ],
+      "origin": "source-corpus",
       "sources": [
         {
           "source": "CLAUDE.md",
@@ -1535,6 +1603,7 @@
         "R-EV-003",
         "EV-003"
       ],
+      "origin": "source-corpus",
       "sources": [
         {
           "source": "CLAUDE.md",
@@ -1562,6 +1631,7 @@
         "EV-005",
         "CG-013"
       ],
+      "origin": "source-corpus",
       "sources": [
         {
           "source": "CLAUDE.md",
@@ -1592,6 +1662,7 @@
         "R-EV-005",
         "EV-006"
       ],
+      "origin": "source-corpus",
       "sources": [
         {
           "source": "docs/quality/architecture-probes.md",
@@ -1608,6 +1679,7 @@
         "EV-007",
         "CG-012"
       ],
+      "origin": "source-corpus",
       "sources": [
         {
           "source": "CLAUDE.md",
@@ -1644,6 +1716,7 @@
         "DR-014",
         "EV-008"
       ],
+      "origin": "source-corpus",
       "sources": [
         {
           "source": "CLAUDE.md",
@@ -1664,6 +1737,7 @@
         "R-EV-008",
         "EV-009"
       ],
+      "origin": "source-corpus",
       "sources": [
         {
           "source": "docs/quality/architecture-probes.md",
@@ -1684,6 +1758,7 @@
         "R-EV-009",
         "EV-010"
       ],
+      "origin": "source-corpus",
       "sources": [
         {
           "source": "docs/development/document-system.md",
@@ -1699,6 +1774,7 @@
         "R-EV-010",
         "EV-012"
       ],
+      "origin": "source-corpus",
       "sources": [
         {
           "source": "docs/development/document-system.md",
@@ -1714,6 +1790,7 @@
         "R-EV-011",
         "EV-014"
       ],
+      "origin": "source-corpus",
       "sources": [
         {
           "source": "docs/quality/security-gates.md",
@@ -1730,6 +1807,7 @@
         "EV-015",
         "CG-011"
       ],
+      "origin": "source-corpus",
       "sources": [
         {
           "source": "CLAUDE.md",
@@ -1754,6 +1832,7 @@
       "aliases": [
         "R-EV-013"
       ],
+      "origin": "source-corpus",
       "sources": [
         {
           "source": "docs/ARCHITECTURE.md",
@@ -1773,6 +1852,7 @@
       "aliases": [
         "R-EV-014"
       ],
+      "origin": "source-corpus",
       "sources": [
         {
           "source": "docs/quality/architecture-probes.md",
@@ -1787,6 +1867,7 @@
       "aliases": [
         "R-COMP-001"
       ],
+      "origin": "source-corpus",
       "sources": [
         {
           "source": "docs/principles/product-and-decision-policy.md",
@@ -1803,6 +1884,7 @@
         "AP-008",
         "CG-016"
       ],
+      "origin": "source-corpus",
       "sources": [
         {
           "source": "CLAUDE.md",
@@ -1829,6 +1911,7 @@
         "AP-011",
         "CC-008"
       ],
+      "origin": "source-corpus",
       "sources": [
         {
           "source": "CLAUDE.md",
