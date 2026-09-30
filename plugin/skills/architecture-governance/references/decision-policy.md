@@ -1,107 +1,138 @@
-# Decision Policy
+# 판단 기준
 
-무엇이 이미 정해진 설계인지, 구현 자유인지, 설계 결함인지, 실제 제품 정책 선택인지 판정할 때 사용한다.
+무엇을 이미 정해진 설계로 따를지, 무엇을 구현 자유로 볼지, 어디까지를 설계 결함으로 고칠지, 언제 실제 제품 결정을 요청할지 판정합니다.
 
-> 이 문서는 읽기 쉬운 projection입니다. 규칙의 정본은 `rule-registry.json`입니다.
+> 이 문서는 정본 규칙의 읽기용 묶음입니다. 규칙 자체의 정본은 `rule-registry.json`입니다.
 
-## Decision Policy
+## R-DEC-001 — 결정을 묻기 전에 애매함의 종류를 나눈다
 
-### R-DEC-001 — Classify ambiguity before asking for a decision
-- **Portability:** CORE
-- **Strength:** MUST
-- **Rule:** 애매함은 먼저 Specified Architecture, Implementation Freedom, Spec/Local Design Defect, Unspecified Product Policy로 분류한다. 실제 제품 결정 후보는 마지막 경우뿐이다.
-- **Why:** 기술적 책임을 제품 선택으로 외부화하지 않는다.
-- **Applies when:** all non-trivial software projects
-- **Does not apply when:** —
-- **Enforcement:** review
+**강도:** MUST · **범용성:** CORE
 
-### R-DEC-002 — Product-decision threshold is high
-- **Portability:** CORE
-- **Strength:** MUST
-- **Rule:** 제품/사용자 결정을 요구하기 전에 owner와 dependency를 읽고 canonical extension point를 조사하며, 기존 invariant로 우열을 연역할 수 없고 모든 후보가 correctness/security/determinism/extensibility를 만족하며 실제 사용자 경험 차이가 남는지 확인한다.
-- **Why:** 질문을 보수성의 대체물로 사용하지 않는다.
-- **Applies when:** all non-trivial software projects
-- **Does not apply when:** —
-- **Enforcement:** decision-checklist
+애매한 상황은 먼저 `Specified Architecture`, `Implementation Freedom`, `Spec/Local Design Defect`, `Unspecified Product Policy`로 분류한다. 실제 제품 결정을 사용자에게 물어야 하는 경우는 마지막 범주뿐이다.
 
-### R-DEC-003 — Implementation difficulty is not product policy
-- **Portability:** CORE
-- **Strength:** MUST
-- **Rule:** 새 type/field가 필요하거나 refactor가 크고 파일이 많이 바뀌거나 기존 internal API를 폐기해야 한다는 이유만으로 제품 결정을 요구하지 않는다.
-- **Why:** 구현 비용과 제품 의미는 다른 축이다.
-- **Applies when:** all non-trivial software projects
-- **Does not apply when:** —
-- **Enforcement:** review
+**이유:** 기술적 책임을 제품 선택 문제로 떠넘기지 않기 위해서다.
 
-### R-DEC-004 — Architecture change means a semantic-law change
-- **Portability:** CORE
-- **Strength:** MUST
-- **Rule:** 변경 규모가 아니라 system-wide closed law, dependency direction, durable truth owner, public contract의 기본 의미, identity/ordering/authority/failure law가 바뀌는지로 architecture change를 판정한다.
-- **Why:** 큰 refactor를 architecture change로 과대분류하거나 실제 law 변화를 놓치는 것을 막는다.
-- **Applies when:** all non-trivial software projects
-- **Does not apply when:** —
-- **Enforcement:** change-classification
+**적용 조건:** all non-trivial software projects
 
-### R-DEC-005 — Absence from the current document is not proof of an architecture change
-- **Portability:** CORE
-- **Strength:** MUST
-- **Rule:** 요구가 문서에 없다는 사실만으로 architecture 변경을 선언하지 않는다. 기존 extension point나 contract extension으로 자연스럽게 표현 가능한지 먼저 검증한다.
-- **Why:** 문서 공백과 구조적 표현 불가능성을 구분한다.
-- **Applies when:** all non-trivial software projects
-- **Does not apply when:** —
-- **Enforcement:** review
+**검증:** review
 
-### R-DEC-006 — Fix local design defects at their owner
-- **Portability:** CORE
-- **Strength:** MUST
-- **Rule:** closed law를 바꿀 필요 없이 owner-local abstraction이 좁거나 잘못되었다면 하위 workaround를 추가하지 않고 해당 owner를 재설계한다.
-- **Why:** 잘못된 local API의 호환성을 보존하기 위해 전역 architecture를 왜곡하지 않는다.
-- **Applies when:** all non-trivial software projects
-- **Does not apply when:** —
-- **Enforcement:** review
+## R-DEC-002 — 제품 결정을 요구하는 문턱은 높게 둔다
 
-### R-DEC-007 — Architecture-defect claims carry a proof burden
-- **Portability:** CORE
-- **Strength:** MUST
-- **Rule:** architecture defect를 주장하려면 현재 owner, 시도한 extension point, 표현 불가능한 정확한 이유, 깨지는 invariant, implementation/contract extension으로 해결 불가능한 이유, 필요한 최소 law change와 최소 반례를 제시한다.
-- **Why:** 익숙한 API가 없다는 사실과 구조적으로 표현 불가능한 사실을 분리한다.
-- **Applies when:** all non-trivial software projects
-- **Does not apply when:** —
-- **Enforcement:** decision-record
+**강도:** MUST · **범용성:** CORE
 
-### R-DEC-008 — Use a deterministic default reasoning order
-- **Portability:** CORE
-- **Strength:** MUST
-- **Rule:** 명시적 제품 결정을 기다릴 필요가 없으면 invariant를 더 강하게 보존하고, canonical owner 재사용, 더 일반적·조합 가능한 abstraction, truth 추가보다 derived state, runtime fallback보다 사전 검증, 암묵 규칙보다 explicit identity/order/failure를 순서대로 선호한다.
-- **Why:** 동등해 보이는 내부 선택을 일관된 engineering 기준으로 좁힌다.
-- **Applies when:** all non-trivial software projects
-- **Does not apply when:** —
-- **Enforcement:** review
+제품 또는 사용자 결정을 요구하기 전에 관련 `owner`와 의존성을 확인하고 정본 확장 지점을 조사한다. 기존 불변 규칙만으로 우열을 정할 수 없고 모든 후보가 정확성·보안·결정성·확장성을 만족하면서 실제 사용자 경험의 차이가 남을 때만 제품 결정으로 올린다.
 
-### R-DEC-009 — Settings are not correctness escape hatches
-- **Portability:** CORE
-- **Strength:** MUST
-- **Rule:** correct/incorrect, safe/unsafe, deterministic/order-dependent, canonical path/bypass 같은 선택을 사용자가 떠안는 Setting으로 만들지 않는다. 제공하는 선택지는 모두 핵심 invariant를 만족해야 한다.
-- **Why:** 구현 결함을 제품 옵션으로 숨기지 않는다.
-- **Applies when:** all non-trivial software projects
-- **Does not apply when:** —
-- **Enforcement:** product-review
+**이유:** 질문을 충분한 조사 대신 사용하는 일을 막는다.
 
-### R-DEC-010 — Current code practice is not architecture authority
-- **Portability:** CORE
-- **Strength:** MUST
-- **Rule:** 현재 코드가 반복해서 사용하는 우회나 관행을 원래 설계 의도로 사후 합리화하지 않는다. owner docs와 다르면 implementation violation인지 owner defect인지 root-cause를 다시 판정한다.
-- **Why:** 현상과 규범을 뒤집지 않는다.
-- **Applies when:** all non-trivial software projects
-- **Does not apply when:** —
-- **Enforcement:** review
+**적용 조건:** all non-trivial software projects
 
-### R-DEC-011 — Spec defects are normal self-correction signals
-- **Portability:** CORE
-- **Strength:** MUST
-- **Rule:** 구현 중 반례가 드러나면 잘못된 abstraction을 보존하지 않고 owner와 Probe를 수정한 뒤 계속한다. spec defect 발견 자체를 실패로 취급하지 않는다.
-- **Why:** 설계를 지킨다는 것을 하위 구조를 영원히 보존하는 것으로 오해하지 않는다.
-- **Applies when:** all non-trivial software projects
-- **Does not apply when:** —
-- **Enforcement:** review
+**검증:** decision-checklist
+
+## R-DEC-003 — 구현이 어렵다는 이유만으로 제품 결정을 요구하지 않는다
+
+**강도:** MUST · **범용성:** CORE
+
+새 type이나 field가 필요하거나, refactor가 크거나, 많은 파일을 바꾸거나, 기존 내부 API를 폐기해야 한다는 이유만으로 제품 결정을 요구하지 않는다.
+
+**이유:** 구현 비용과 제품 의미는 서로 다른 문제다.
+
+**적용 조건:** all non-trivial software projects
+
+**검증:** review
+
+## R-DEC-004 — 아키텍처 변경은 의미 규칙이 바뀌는 변경이다
+
+**강도:** MUST · **범용성:** CORE
+
+diff 크기가 아니라 시스템 전반의 불변 규칙, 의존성 방향, 영속 정본의 책임자, 공개 계약의 기본 의미, 식별자·순서·권한·실패 규칙이 바뀌는지로 아키텍처 변경 여부를 판단한다.
+
+**이유:** 큰 refactor를 아키텍처 변경으로 과대분류하거나 실제 의미 규칙의 변화를 놓치는 일을 막는다.
+
+**적용 조건:** all non-trivial software projects
+
+**검증:** change-classification
+
+## R-DEC-005 — 현재 문서에 없다는 사실만으로 아키텍처 변경이라고 보지 않는다
+
+**강도:** MUST · **범용성:** CORE
+
+요구가 현재 문서에 적혀 있지 않다는 이유만으로 아키텍처 변경을 선언하지 않는다. 기존 확장 지점이나 계약 확장으로 자연스럽게 표현할 수 있는지 먼저 확인한다.
+
+**이유:** 문서의 공백과 구조적으로 표현할 수 없는 상태를 구분하기 위해서다.
+
+**적용 조건:** all non-trivial software projects
+
+**검증:** review
+
+## R-DEC-006 — 지역 설계 결함은 그 책임 경계에서 고친다
+
+**강도:** MUST · **범용성:** CORE
+
+전역 불변 규칙을 바꿀 필요 없이 특정 `owner`의 추상화가 좁거나 잘못되었다면 하위 계층에 우회책을 추가하지 말고 해당 `owner`를 재설계한다.
+
+**이유:** 잘못된 지역 API를 보존하려고 전체 아키텍처를 왜곡하지 않기 위해서다.
+
+**적용 조건:** all non-trivial software projects
+
+**검증:** review
+
+## R-DEC-007 — 아키텍처 결함 주장에는 근거가 필요하다
+
+**강도:** MUST · **범용성:** CORE
+
+아키텍처 결함이라고 판단하려면 현재 `owner`, 검토한 확장 지점, 현재 구조로 표현할 수 없는 정확한 이유, 깨지는 불변 규칙, 단순 구현 또는 계약 확장으로 해결할 수 없는 이유, 필요한 최소 규칙 변경과 최소 반례를 제시한다.
+
+**이유:** 익숙한 API가 없다는 사실과 구조적으로 표현할 수 없다는 사실을 구분하기 위해서다.
+
+**적용 조건:** all non-trivial software projects
+
+**검증:** decision-record
+
+## R-DEC-008 — 내부 선택에는 일관된 기본 판단 순서를 사용한다
+
+**강도:** MUST · **범용성:** CORE
+
+명시적인 제품 결정을 기다릴 필요가 없다면 다음 순서로 선택지를 좁힌다. 불변 규칙을 더 강하게 보존하고, 정본 `owner`를 재사용하고, 더 일반적이고 조합 가능한 추상화를 택하고, 새 정본보다 파생 상태를 선호하고, 런타임 fallback보다 사전 검증을 선호하고, 암묵 규칙보다 명시적인 식별자·순서·실패 규칙을 택한다.
+
+**이유:** 겉보기에 동등한 내부 선택을 같은 engineering 기준으로 다루기 위해서다.
+
+**적용 조건:** all non-trivial software projects
+
+**검증:** review
+
+## R-DEC-009 — 설정으로 정확성 문제를 떠넘기지 않는다
+
+**강도:** MUST · **범용성:** CORE
+
+correct/incorrect, safe/unsafe, deterministic/order-dependent, canonical path/bypass처럼 정확성에 직접 영향을 주는 선택을 사용자 설정으로 넘기지 않는다. 제공하는 모든 선택지는 핵심 불변 규칙을 만족해야 한다.
+
+**이유:** 구현 결함을 제품 옵션처럼 보이게 만들지 않기 위해서다.
+
+**적용 조건:** all non-trivial software projects
+
+**검증:** product-review
+
+## R-DEC-010 — 현재 코드의 관행을 아키텍처 권위로 삼지 않는다
+
+**강도:** MUST · **범용성:** CORE
+
+현재 코드에서 반복되는 우회나 관행을 원래 설계 의도로 사후 정당화하지 않는다. 정본 문서와 다르다면 구현 위반인지 정본 설계의 결함인지 원인을 다시 판단한다.
+
+**이유:** 현재 상태와 규범을 뒤집지 않기 위해서다.
+
+**적용 조건:** all non-trivial software projects
+
+**검증:** review
+
+## R-DEC-011 — 명세 결함 발견은 정상적인 자기 교정 신호다
+
+**강도:** MUST · **범용성:** CORE
+
+구현 과정에서 반례가 드러나면 잘못된 추상화를 억지로 보존하지 않는다. 정본 `owner`와 Probe를 수정한 뒤 작업을 계속한다. 명세 결함을 발견했다는 사실 자체를 실패로 간주하지 않는다.
+
+**이유:** 설계를 지킨다는 말을 하위 구조를 영원히 고정한다는 뜻으로 오해하지 않기 위해서다.
+
+**적용 조건:** all non-trivial software projects
+
+**검증:** review
 
