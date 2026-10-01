@@ -23,14 +23,14 @@ The model-facing entry point is intentionally small. `SKILL.md` contains only th
 - `evidence.md` — probes, readiness, security/performance evidence
 - `delivery.md` — change workflow, completion, greenfield compatibility
 
-Rules use compact IDs such as `O3` instead of `R-OWN-003`. All previous IDs, source citations, and the complete v1.1 wording are preserved under `aliases.json` and `archive/v1.1/`; normal runs do not load them.
+Rules use compact IDs such as `O3` instead of `R-OWN-003`. The 83-rule v1.1 wording and legacy IDs remain under `aliases.json` and `archive/v1.1/`. The exhaustive 94-rule source-methodology disposition is recorded in `source-traceability.json`, including rules restored after the original compact extraction; normal runs do not load provenance files.
 
 ## Core behavior
 
 - Find the existing semantic owner before creating a new manager/store/registry/dispatcher.
 - Keep one normative authority per semantic responsibility.
 - Make correctness-relevant dependency and ordering explicit.
-- Close identity, ownership, state, transition, authority, failure/retry, persistence, concurrency, and other applicable contract dimensions.
+- Close identity/equality, ownership, state, transition, authority, failure/retry, persistence, concurrency, time, and other applicable contract dimensions.
 - Treat current code as implementation evidence, not automatic architecture authority.
 - Validate important invariants with negative cases and forbidden observable states.
 - Do not anthropomorphize software with unmodeled intent, knowledge, memory, or judgment.

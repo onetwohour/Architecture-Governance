@@ -1,0 +1,687 @@
+{
+  "schema_version": 1,
+  "note": "Exhaustive 94-rule methodology disposition from The Note(2). Audit-only rules describe reference-corpus extraction and are intentionally not runtime architecture policy. G-009 depends partly on an external change-intent workflow and is recorded without being promoted as source-corpus policy.",
+  "reference_corpus": {
+    "name": "The Note(2)",
+    "files": 50,
+    "lines": 23294,
+    "bytes_utf8": 1390788,
+    "generalized_rules": 94,
+    "legacy_v1_1_rules": 83,
+    "active_policy_rules": 101
+  },
+  "rules": [
+    {
+      "id": "G-001",
+      "disposition": "active",
+      "active_rules": [
+        "O1",
+        "O2",
+        "D2",
+        "D3"
+      ]
+    },
+    {
+      "id": "G-002",
+      "disposition": "active",
+      "active_rules": [
+        "O1"
+      ]
+    },
+    {
+      "id": "G-003",
+      "disposition": "active",
+      "active_rules": [
+        "O2"
+      ]
+    },
+    {
+      "id": "G-004",
+      "disposition": "active",
+      "active_rules": [
+        "J10"
+      ]
+    },
+    {
+      "id": "G-005",
+      "disposition": "active",
+      "active_rules": [
+        "O1"
+      ]
+    },
+    {
+      "id": "G-006",
+      "disposition": "active",
+      "active_rules": [
+        "D2"
+      ]
+    },
+    {
+      "id": "G-007",
+      "disposition": "active",
+      "active_rules": [
+        "D10"
+      ]
+    },
+    {
+      "id": "G-008",
+      "disposition": "active",
+      "active_rules": [
+        "D2",
+        "D3",
+        "C1"
+      ]
+    },
+    {
+      "id": "G-009",
+      "disposition": "external-workflow",
+      "active_rules": []
+    },
+    {
+      "id": "G-010",
+      "disposition": "active",
+      "active_rules": [
+        "D17"
+      ]
+    },
+    {
+      "id": "G-011",
+      "disposition": "active",
+      "active_rules": [
+        "D1"
+      ]
+    },
+    {
+      "id": "G-012",
+      "disposition": "active",
+      "active_rules": [
+        "D1"
+      ]
+    },
+    {
+      "id": "G-013",
+      "disposition": "active",
+      "active_rules": [
+        "D2",
+        "C1"
+      ]
+    },
+    {
+      "id": "G-014",
+      "disposition": "active",
+      "active_rules": [
+        "D6"
+      ]
+    },
+    {
+      "id": "G-015",
+      "disposition": "active",
+      "active_rules": [
+        "C1",
+        "C2"
+      ]
+    },
+    {
+      "id": "G-016",
+      "disposition": "active",
+      "active_rules": [
+        "D7"
+      ]
+    },
+    {
+      "id": "G-017",
+      "disposition": "active",
+      "active_rules": [
+        "D11"
+      ]
+    },
+    {
+      "id": "G-018",
+      "disposition": "active",
+      "active_rules": [
+        "D14"
+      ]
+    },
+    {
+      "id": "G-019",
+      "disposition": "active",
+      "active_rules": [
+        "D14"
+      ]
+    },
+    {
+      "id": "G-020",
+      "disposition": "active",
+      "active_rules": [
+        "D15"
+      ]
+    },
+    {
+      "id": "G-021",
+      "disposition": "active",
+      "active_rules": [
+        "D13"
+      ]
+    },
+    {
+      "id": "G-022",
+      "disposition": "active",
+      "active_rules": [
+        "D13"
+      ]
+    },
+    {
+      "id": "G-023",
+      "disposition": "active",
+      "active_rules": [
+        "D14"
+      ]
+    },
+    {
+      "id": "G-024",
+      "disposition": "active",
+      "active_rules": [
+        "D16"
+      ]
+    },
+    {
+      "id": "G-025",
+      "disposition": "active",
+      "active_rules": [
+        "S17"
+      ]
+    },
+    {
+      "id": "G-026",
+      "disposition": "active",
+      "active_rules": [
+        "S14"
+      ]
+    },
+    {
+      "id": "G-027",
+      "disposition": "active",
+      "active_rules": [
+        "S3"
+      ]
+    },
+    {
+      "id": "G-028",
+      "disposition": "active",
+      "active_rules": [
+        "S3"
+      ]
+    },
+    {
+      "id": "G-029",
+      "disposition": "active",
+      "active_rules": [
+        "S3"
+      ]
+    },
+    {
+      "id": "G-030",
+      "disposition": "active",
+      "active_rules": [
+        "S11"
+      ]
+    },
+    {
+      "id": "G-031",
+      "disposition": "active",
+      "active_rules": [
+        "S19"
+      ]
+    },
+    {
+      "id": "G-032",
+      "disposition": "active",
+      "active_rules": [
+        "S11"
+      ]
+    },
+    {
+      "id": "G-033",
+      "disposition": "active",
+      "active_rules": [
+        "S11"
+      ]
+    },
+    {
+      "id": "G-034",
+      "disposition": "active",
+      "active_rules": [
+        "S18"
+      ]
+    },
+    {
+      "id": "G-035",
+      "disposition": "active",
+      "active_rules": [
+        "D16"
+      ]
+    },
+    {
+      "id": "G-036",
+      "disposition": "active",
+      "active_rules": [
+        "S14"
+      ]
+    },
+    {
+      "id": "G-037",
+      "disposition": "active",
+      "active_rules": [
+        "S14"
+      ]
+    },
+    {
+      "id": "G-038",
+      "disposition": "active",
+      "active_rules": [
+        "S1",
+        "D12"
+      ]
+    },
+    {
+      "id": "G-039",
+      "disposition": "active",
+      "active_rules": [
+        "S1"
+      ]
+    },
+    {
+      "id": "G-040",
+      "disposition": "active",
+      "active_rules": [
+        "D5"
+      ]
+    },
+    {
+      "id": "G-041",
+      "disposition": "active",
+      "active_rules": [
+        "O1",
+        "D4"
+      ]
+    },
+    {
+      "id": "G-042",
+      "disposition": "active",
+      "active_rules": [
+        "S20"
+      ]
+    },
+    {
+      "id": "G-043",
+      "disposition": "active",
+      "active_rules": [
+        "S21"
+      ]
+    },
+    {
+      "id": "G-044",
+      "disposition": "active",
+      "active_rules": [
+        "S22"
+      ]
+    },
+    {
+      "id": "G-045",
+      "disposition": "active",
+      "active_rules": [
+        "S5"
+      ]
+    },
+    {
+      "id": "G-046",
+      "disposition": "active",
+      "active_rules": [
+        "S19"
+      ]
+    },
+    {
+      "id": "G-047",
+      "disposition": "active",
+      "active_rules": [
+        "S19"
+      ]
+    },
+    {
+      "id": "G-048",
+      "disposition": "active",
+      "active_rules": [
+        "S2",
+        "X1"
+      ]
+    },
+    {
+      "id": "G-049",
+      "disposition": "active",
+      "active_rules": [
+        "X1"
+      ]
+    },
+    {
+      "id": "G-050",
+      "disposition": "active",
+      "active_rules": [
+        "S21"
+      ]
+    },
+    {
+      "id": "G-051",
+      "disposition": "active",
+      "active_rules": [
+        "X2"
+      ]
+    },
+    {
+      "id": "G-052",
+      "disposition": "active",
+      "active_rules": [
+        "S6"
+      ]
+    },
+    {
+      "id": "G-053",
+      "disposition": "active",
+      "active_rules": [
+        "S23"
+      ]
+    },
+    {
+      "id": "G-054",
+      "disposition": "active",
+      "active_rules": [
+        "S24"
+      ]
+    },
+    {
+      "id": "G-055",
+      "disposition": "active",
+      "active_rules": [
+        "S24"
+      ]
+    },
+    {
+      "id": "G-056",
+      "disposition": "active",
+      "active_rules": [
+        "O1",
+        "S7"
+      ]
+    },
+    {
+      "id": "G-057",
+      "disposition": "active",
+      "active_rules": [
+        "S25"
+      ]
+    },
+    {
+      "id": "G-058",
+      "disposition": "active",
+      "active_rules": [
+        "S8"
+      ]
+    },
+    {
+      "id": "G-059",
+      "disposition": "active",
+      "active_rules": [
+        "S9"
+      ]
+    },
+    {
+      "id": "G-060",
+      "disposition": "active",
+      "active_rules": [
+        "S9",
+        "S25"
+      ]
+    },
+    {
+      "id": "G-061",
+      "disposition": "active",
+      "active_rules": [
+        "S25"
+      ]
+    },
+    {
+      "id": "G-062",
+      "disposition": "active",
+      "active_rules": [
+        "S25"
+      ]
+    },
+    {
+      "id": "G-063",
+      "disposition": "active",
+      "active_rules": [
+        "S26"
+      ]
+    },
+    {
+      "id": "G-064",
+      "disposition": "active",
+      "active_rules": [
+        "O3",
+        "O11"
+      ]
+    },
+    {
+      "id": "G-065",
+      "disposition": "active",
+      "active_rules": [
+        "O4"
+      ]
+    },
+    {
+      "id": "G-066",
+      "disposition": "active",
+      "active_rules": [
+        "A1"
+      ]
+    },
+    {
+      "id": "G-067",
+      "disposition": "active",
+      "active_rules": [
+        "O10"
+      ]
+    },
+    {
+      "id": "G-068",
+      "disposition": "active",
+      "active_rules": [
+        "O7",
+        "O10"
+      ]
+    },
+    {
+      "id": "G-069",
+      "disposition": "active",
+      "active_rules": [
+        "S13"
+      ]
+    },
+    {
+      "id": "G-070",
+      "disposition": "active",
+      "active_rules": [
+        "S27"
+      ]
+    },
+    {
+      "id": "G-071",
+      "disposition": "active",
+      "active_rules": [
+        "A1",
+        "E13"
+      ]
+    },
+    {
+      "id": "G-072",
+      "disposition": "active",
+      "active_rules": [
+        "J4",
+        "J7"
+      ]
+    },
+    {
+      "id": "G-073",
+      "disposition": "active",
+      "active_rules": [
+        "O4",
+        "F1"
+      ]
+    },
+    {
+      "id": "G-074",
+      "disposition": "active",
+      "active_rules": [
+        "J6",
+        "J11"
+      ]
+    },
+    {
+      "id": "G-075",
+      "disposition": "active",
+      "active_rules": [
+        "E2"
+      ]
+    },
+    {
+      "id": "G-076",
+      "disposition": "active",
+      "active_rules": [
+        "E3"
+      ]
+    },
+    {
+      "id": "G-077",
+      "disposition": "active",
+      "active_rules": [
+        "J1",
+        "E3"
+      ]
+    },
+    {
+      "id": "G-078",
+      "disposition": "active",
+      "active_rules": [
+        "E5"
+      ]
+    },
+    {
+      "id": "G-079",
+      "disposition": "active",
+      "active_rules": [
+        "E6",
+        "E7"
+      ]
+    },
+    {
+      "id": "G-080",
+      "disposition": "active",
+      "active_rules": [
+        "A1",
+        "E13"
+      ]
+    },
+    {
+      "id": "G-081",
+      "disposition": "active",
+      "active_rules": [
+        "E1"
+      ]
+    },
+    {
+      "id": "G-082",
+      "disposition": "active",
+      "active_rules": [
+        "E15"
+      ]
+    },
+    {
+      "id": "G-083",
+      "disposition": "active",
+      "active_rules": [
+        "D2",
+        "D9"
+      ]
+    },
+    {
+      "id": "G-084",
+      "disposition": "active",
+      "active_rules": [
+        "D18"
+      ]
+    },
+    {
+      "id": "G-085",
+      "disposition": "active",
+      "active_rules": [
+        "D18"
+      ]
+    },
+    {
+      "id": "G-086",
+      "disposition": "active",
+      "active_rules": [
+        "D18"
+      ]
+    },
+    {
+      "id": "G-087",
+      "disposition": "active",
+      "active_rules": [
+        "D19"
+      ]
+    },
+    {
+      "id": "G-088",
+      "disposition": "active",
+      "active_rules": [
+        "D19"
+      ]
+    },
+    {
+      "id": "G-089",
+      "disposition": "active",
+      "active_rules": [
+        "D19"
+      ]
+    },
+    {
+      "id": "G-090",
+      "disposition": "audit-only",
+      "active_rules": []
+    },
+    {
+      "id": "G-091",
+      "disposition": "audit-only",
+      "active_rules": []
+    },
+    {
+      "id": "G-092",
+      "disposition": "active",
+      "active_rules": [
+        "A1"
+      ]
+    },
+    {
+      "id": "G-093",
+      "disposition": "skill",
+      "active_rules": [
+        "SKILL"
+      ]
+    },
+    {
+      "id": "G-094",
+      "disposition": "audit-only",
+      "active_rules": []
+    }
+  ]
+}

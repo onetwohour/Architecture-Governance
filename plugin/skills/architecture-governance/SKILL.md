@@ -12,7 +12,7 @@ Use the target project's own domain model. This skill supplies decision and revi
 1. Separate normative design, implementation status, roadmap, research, tests, generated indexes, and code.
 2. Identify the semantic owner, mutation authority, dependencies, producers/consumers, lifecycle, failure/retry, persistence, concurrency, and extension points that matter.
 3. Reuse or redesign the existing owner before creating another manager, store, registry, dispatcher, bridge, or authority path.
-4. Close every applicable contract dimension: identity, ownership, state, transition, authority, ordering, visibility/atomicity, failure, cancellation, retry/idempotency, replay, persistence, reconfiguration, concurrency, unknown/opaque handling, observability.
+4. Close every applicable contract dimension: identity/equality, ownership, state, transition, authority, ordering, visibility/atomicity, failure, cancellation, retry/idempotency, replay, persistence, reconfiguration, concurrency, unknown/opaque handling, observability.
 5. Make correctness-relevant dependencies and ordering explicit; never rely on registration order, container iteration, thread timing, callback timing, or hidden mutable wiring.
 6. Validate important invariants with negative cases and forbidden observable states.
 7. Do not claim readiness or completion without evidence.
@@ -25,6 +25,8 @@ Use the target project's own domain model. This skill supplies decision and revi
 - Extend the canonical surface before using an escape hatch.
 - Shared abstractions need independent evidence: normally a second real consumer/case or a closed domain law.
 - Unknown state is preserved, not guessed.
+- Fallbacks, defaults, bounds, and timeouts need an owner and a reason; providers do not invent them.
+- Physical/runtime identifiers and self-asserted payloads do not become semantic or security identity.
 - Performance never justifies bypassing ownership, authority, commit, isolation, or validation boundaries.
 - Known in-scope architecture/spec violations are not "done" because they are labeled temporary.
 
@@ -36,7 +38,7 @@ Use the target project's own domain model. This skill supplies decision and revi
 - Tests, probes, readiness, security/performance evidence → `references/evidence.md`
 - Change workflow, completion, greenfield compatibility → `references/delivery.md`
 
-Do not load the archive or provenance map during normal work. Use `archive/rule-registry-v1.1.ko.json` and `references/aliases.json` only when exact historical wording, legacy IDs, or source provenance is required.
+Do not load the archive or provenance map during normal work. Use `archive/rule-registry-v1.1.ko.json` and `references/aliases.json` only when exact historical wording or legacy IDs are required. Use `references/source-traceability.json` only for source-methodology fidelity audits.
 
 ## Writing
 

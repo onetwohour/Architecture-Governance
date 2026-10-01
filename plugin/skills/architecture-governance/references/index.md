@@ -12,4 +12,4 @@ Model-facing policy is split so normal runs load only what they need.
 
 Compact ID prefixes: W work, O ownership, A abstraction, S runtime semantics, T data, X security, J decisions, D documentation, C comments, V conventions, E evidence, G completion, F greenfield.
 
-Do not load `../archive/*` or `aliases.json` unless exact legacy wording, old IDs, or source provenance is needed.
+Do not load `../archive/*`, `aliases.json`, or `source-traceability.json` during normal work. `aliases.json` preserves the legacy 83-rule mapping; `source-traceability.json` records the 94-rule source-methodology disposition used for fidelity audits.

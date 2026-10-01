@@ -1,8 +1,8 @@
 # Engineering Constitution
 
-This is the human-readable English policy index for Architecture Governance v1.2.
+This is the human-readable English policy index for Architecture Governance v1.3.
 
-The model-facing policy is partitioned so a normal run loads only the rules relevant to the task. Together, the five files below contain all 83 active rules exactly once:
+The model-facing policy is partitioned so a normal run loads only the rules relevant to the task. Together, the five files below contain all 101 active rules exactly once:
 
 - [System rules](../plugin/skills/architecture-governance/references/system.md)
 - [Decision rules](../plugin/skills/architecture-governance/references/decisions.md)
@@ -10,7 +10,7 @@ The model-facing policy is partitioned so a normal run loads only the rules rele
 - [Evidence rules](../plugin/skills/architecture-governance/references/evidence.md)
 - [Delivery rules](../plugin/skills/architecture-governance/references/delivery.md)
 
-Compact IDs are stable model-facing handles. Historical IDs and source provenance are preserved in [aliases.json](../plugin/skills/architecture-governance/references/aliases.json). The complete v1.1 Korean registry and documents are preserved verbatim under [archive/v1.1](../plugin/skills/architecture-governance/archive/v1.1/).
+Compact IDs are stable model-facing handles. Historical v1.1 IDs and provenance are preserved in [aliases.json](../plugin/skills/architecture-governance/references/aliases.json). The exhaustive 94-rule source-methodology disposition is tracked in [source-traceability.json](../plugin/skills/architecture-governance/references/source-traceability.json). The complete v1.1 Korean registry and documents are preserved verbatim under [archive/v1.1](../plugin/skills/architecture-governance/archive/v1.1/).
 
 ## Identity migration
 

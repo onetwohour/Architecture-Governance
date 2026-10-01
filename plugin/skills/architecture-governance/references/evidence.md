@@ -14,5 +14,6 @@ Load this file for probes, tests, readiness, concurrency validation, security cl
 - **E10 MUST when generated indexes/inventories exist — Generated inventories aid navigation; they do not own truth.**
 - **E11 MUST when security/isolation/capability guarantees are claimed — Test actual enforcement adversarially.** Attempt bypass, authority widening, and stale-authority use.
 - **E12 SHOULD when performance is architectural — Track structural metrics as well as wall-clock time.** Examples: allocations, bytes copied, node count, invalidation/reuse, queue depth.
-- **E13 MUST when plans use phase/stage/readiness gates — Behavior proves the stage, not the existence of structs/modules/docs.**
+- **E13 MUST when plans use phase/stage/readiness gates — Behavior proves the stage, not the existence of structs/modules/docs.** For shared/runtime abstractions, implementation-ready claims normally require a vertical slice plus a second materially different case/provider/substrate, not only the first successful implementation.
 - **E14 MUST — Probe harnesses stay minimal and non-authoritative.** A conformance harness must not become a replacement product path or second authority.
+- **E15 MUST for validators, linters, and generated audits — State the proof boundary.** Report what the check proves and what it does not prove. Structural closure, file coverage, schema validity, and passing fixtures must not be presented as semantic correctness beyond the evidence actually checked.

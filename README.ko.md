@@ -21,9 +21,7 @@ claude plugin install architecture-governance@onetwohour
 - `evidence.md` — Probe, readiness, 보안·성능 증거
 - `delivery.md` — 변경 절차, 완료, greenfield 호환성
 
-실행 문서에서는 `R-OWN-003` 대신 `O3` 같은 짧은 ID를 사용합니다. 기존 ID, 원본 출처, v1.1 전체 문구는 `aliases.json`과 `archive/v1.1/`에 그대로 보존하며 평상시에는 읽지 않습니다.
-
-즉 토큰을 줄이기 위해 **내용을 삭제한 것이 아니라 기본 컨텍스트에서 분리**했습니다.
+실행 문서에서는 `R-OWN-003` 대신 `O3` 같은 짧은 ID를 사용합니다. v1.1의 83개 규칙 원문과 기존 ID는 `aliases.json`과 `archive/v1.1/`에 보존합니다. 원본 전수 감사에서 나온 94개 일반화 규칙의 현재 disposition은 `source-traceability.json`에 기록하며, 최초 compact 추출에서 빠졌던 범용 법칙도 active policy에 복구했습니다. 평상시 실행에는 provenance 파일을 읽지 않습니다.
 
 ## 검증
 
