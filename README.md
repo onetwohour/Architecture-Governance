@@ -2,11 +2,11 @@
 
 **English** · [한국어](README.ko.md)
 
-Architecture problems are rarely caused by a missing class or function. They usually come from unclear ownership, duplicated sources of truth, hidden ordering, underspecified failure behavior, or abstractions that were introduced before the system actually needed them.
+Architecture Governance is a Claude Code skill for changes that are bigger than a local code edit.
 
-Architecture Governance is a Claude Code skill for reviewing and changing software architecture without papering over those problems.
+Use it when a refactor, new subsystem, persistence layer, concurrency model, plugin boundary, or API change can affect who owns state, how operations are ordered, what survives a restart, or where failures are handled.
 
-It is useful when you are designing a subsystem, cleaning up a specification, planning a large refactor, introducing persistence or concurrency, defining plugin boundaries, or trying to decide whether a problem belongs in the implementation or in the architecture itself.
+The skill makes Claude inspect those questions before proposing another manager, registry, cache, dispatcher, adapter, or workaround.
 
 ## Install
 
@@ -17,31 +17,43 @@ claude plugin install architecture-governance@onetwohour
 
 Start a new Claude Code session after installation.
 
-## What it checks
+## When it helps
 
-The skill pushes architecture work toward a few concrete questions:
+Typical cases include:
 
-- Who owns this semantic decision?
-- Is the same fact stored or decided in more than one place?
-- Are dependencies and ordering explicit, or are they leaking through registration order, container order, callbacks, or thread timing?
-- Are identity, equality, authority, state transitions, failure, retry, persistence, and reconfiguration actually defined?
-- Does an abstraction have enough evidence to exist, or is it just another layer?
-- Can important guarantees be falsified with a negative test or probe?
-- Is the implementation working around a broken owner instead of fixing it?
+- designing or reviewing a subsystem
+- planning a large refactor
+- cleaning up an architecture or protocol specification
+- introducing persistence, retries, cancellation, or concurrency
+- defining plugin, process, trust, or capability boundaries
+- deciding whether a problem is local implementation debt or a flaw in the design
 
-The goal is not to impose a particular architecture. The skill uses the project's own domain model and tries to make its rules explicit, minimal, and testable.
+## What it looks for
 
-## How it is organized
+The rules are built around practical failure modes:
 
-`SKILL.md` contains the working loop and the strongest defaults. More detailed rules are split by concern and loaded only when relevant:
+- two places both acting as the source of truth
+- a new abstraction duplicating an existing owner
+- behavior that depends on registration order, callback timing, container iteration, or thread scheduling
+- identity, equality, authority, lifecycle, retry, or failure semantics left implicit
+- caches or projections quietly becoming authoritative state
+- cancellation being mistaken for completion of an external operation
+- fallbacks, limits, and timeouts appearing without a clear owner
+- tests that prove the happy path but never try to break the contract
 
-- `system.md` — ownership, abstraction, runtime semantics, state, persistence, security
-- `decisions.md` — ambiguous requirements and engineering-vs-product decisions
+It does not prescribe a framework or architecture style. It works from the project's existing model and asks whether that model is explicit, internally consistent, and testable.
+
+## Files
+
+The detailed rules are split into five groups so Claude only needs to read the parts relevant to the current task:
+
+- `system.md` — ownership, abstractions, runtime behavior, state, persistence, security
+- `decisions.md` — ambiguous requirements and engineering vs. product decisions
 - `writing.md` — specifications, terminology, comments, and normative language
-- `evidence.md` — probes, readiness, concurrency, security, and performance evidence
+- `evidence.md` — tests, probes, readiness, concurrency, security, and performance evidence
 - `delivery.md` — change workflow, completion criteria, and greenfield compatibility
 
-The five reference files are the active policy.
+`SKILL.md` contains the short working procedure and the defaults that apply across those areas.
 
 ## Validation
 
@@ -50,9 +62,9 @@ python plugin/skills/architecture-governance/scripts/validate.py
 python tests/validate_repository.py
 ```
 
-The validator checks the repository structure and active rule set. Passing it does not by itself prove that a design is semantically correct.
+These checks catch repository-structure and rule-set mistakes. They are not a substitute for reviewing the actual design.
 
-## Policy index
+## Rule index
 
 [Engineering Constitution](doctrine/ENGINEERING_CONSTITUTION.md)
 
