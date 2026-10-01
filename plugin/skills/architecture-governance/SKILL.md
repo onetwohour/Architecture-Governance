@@ -38,8 +38,6 @@ Use the target project's own domain model. This skill supplies decision and revi
 - Tests, probes, readiness, security/performance evidence → `references/evidence.md`
 - Change workflow, completion, greenfield compatibility → `references/delivery.md`
 
-Do not load the archive or provenance map during normal work. Use `archive/rule-registry-v1.1.ko.json` and `references/aliases.json` only when exact historical wording or legacy IDs are required. Use `references/source-traceability.json` only for source-methodology fidelity audits.
-
 ## Writing
 
 Write model-facing guidance in concise English. Match the target project's requested output language.

@@ -13,15 +13,15 @@ claude plugin install architecture-governance@onetwohour
 
 ## 토큰 사용 방식
 
-실행용 `SKILL.md`에는 핵심 작업 순서와 강한 기본 규칙만 둡니다. 세부 규칙은 작업에 필요한 묶음만 읽습니다.
+실행용 `SKILL.md`에는 기본 작업 순서와 강한 불변식만 둡니다. 세부 규칙은 작업에 필요한 묶음만 읽습니다.
 
 - `system.md` — 소유권, 추상화, 런타임 의미, 상태, 영속성, 보안
 - `decisions.md` — 애매한 요구와 제품 결정 판정
-- `writing.md` — 명세, 주석, 용어, 의인화 금지
+- `writing.md` — 명세, 주석, 용어
 - `evidence.md` — Probe, readiness, 보안·성능 증거
 - `delivery.md` — 변경 절차, 완료, greenfield 호환성
 
-실행 문서에서는 `R-OWN-003` 대신 `O3` 같은 짧은 ID를 사용합니다. v1.1의 83개 규칙 원문과 기존 ID는 `aliases.json`과 `archive/v1.1/`에 보존합니다. 원본 전수 감사에서 나온 94개 일반화 규칙의 현재 disposition은 `source-traceability.json`에 기록하며, 최초 compact 추출에서 빠졌던 범용 법칙도 active policy에 복구했습니다. 평상시 실행에는 provenance 파일을 읽지 않습니다.
+위 다섯 reference 파일이 현재 정책의 전부입니다.
 
 ## 검증
 
@@ -30,7 +30,7 @@ python plugin/skills/architecture-governance/scripts/validate.py
 python tests/validate_repository.py
 ```
 
-## 전체 규약
+## 정책 인덱스
 
 [Engineering Constitution](doctrine/ENGINEERING_CONSTITUTION.md)
 
