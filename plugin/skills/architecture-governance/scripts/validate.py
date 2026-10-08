@@ -88,7 +88,7 @@ if errors:
 print("PASS")
 print(f"active_rules={len(active_strength)}")
 print(f"skill_bytes={len(skill_text.encode('utf-8'))}")
-print("workflows=5")
+print(f"workflows={len(workflows)}")
 print("policy_surface=5 reference files")
 print("proof_scope=current repository structure and active rule-set integrity")
 print("does_not_prove=target-project design or runtime correctness")

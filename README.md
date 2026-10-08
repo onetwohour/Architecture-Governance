@@ -40,7 +40,7 @@ Modes are arguments to **one** Skill, not six separate Skills. Without a mode it
 5. Examine the actual diff and try negative/failure cases before claiming completion.
 6. Report PASS, FAIL, UNKNOWN, STALE or REVIEW_REQUIRED with evidence and limits.
 
-Five **workflow files** make these steps operational, while five existing **rule references** retain the 101 rules for ownership, runtime semantics, decision-making, specification writing and evidence. On-demand loading keeps routine work small.
+Six **workflow files** make these steps operational, while five existing **rule references** retain the 101 rules for ownership, runtime semantics, decision-making, specification writing and evidence. On-demand loading keeps routine work small.
 
 ## Project-state governance (v3)
 
