@@ -150,22 +150,22 @@ class ProjectStateTests(unittest.TestCase):
 
     def test_cycle_in_owner_dependency_graph_is_rejected(self):
         arch = self.repo / "docs" / "architecture.toml"
-        arch.write_text("[[document]]\\nid = 'core'\\npath = 'core.md'\\n"
-                        "depends_on = ['other']\\n"
-                        "[[document]]\\nid = 'other'\\npath = 'core.md'\\n"
-                        "depends_on = ['core']\\n")
+        arch.write_text("[[document]]\nid = 'core'\npath = 'core.md'\n"
+                        "depends_on = ['other']\n"
+                        "[[document]]\nid = 'other'\npath = 'core.md'\n"
+                        "depends_on = ['core']\n")
         proc = self.command()
         self.assertEqual(proc.returncode, 2)
         self.assertIn("owner dependency cycle", proc.stderr)
 
     def test_issue_markdown_does_not_insert_table_columns(self):
         issue = self.root / "issues.toml"
-        issue.write_text("[[issue]]\\nid = 'SD-1'\\nkind = 'SPEC_DEFECT'\\n"
-                         "state = 'OPEN'\\nowner = 'core'\\n"
-                         "summary = 'Two | incompatible meanings'\\n")
+        issue.write_text("[[issue]]\nid = 'SD-1'\nkind = 'SPEC_DEFECT'\n"
+                         "state = 'OPEN'\nowner = 'core'\n"
+                         "summary = 'Two | incompatible meanings'\n")
         proc = self.command("--issues", issue, "--out", self.output, "--write")
         self.assertEqual(proc.returncode, 0, proc.stderr)
-        self.assertIn("Two \\\\| incompatible meanings",
+        self.assertIn("Two " + chr(92) + "| incompatible meanings",
                       (self.output / "TODO.generated.md").read_text())
 
     def test_normalized_json_no_project_specific_layout(self):
