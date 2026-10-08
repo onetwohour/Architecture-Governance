@@ -1,6 +1,6 @@
 # Architecture Governance
 
-**English** · [한국어](README.ko.md)
+**English** · [한국어](README.ko.md) · [简体中文](README.zh-CN.md) · [日本語](README.ja.md)
 
 **Make changes to a codebase without losing track of its architecture.**
 

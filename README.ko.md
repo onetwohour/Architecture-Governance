@@ -1,6 +1,6 @@
 # Architecture Governance
 
-[English](README.md) · **한국어**
+[English](README.md) · **한국어** · [简体中文](README.zh-CN.md) · [日本語](README.ja.md)
 
 **기존 아키텍처를 지키면서 코드를 변경하기 위한 Claude Code 플러그인입니다.**
 
