@@ -15,6 +15,8 @@ import tomllib
 
 PROBE_MARKER = re.compile(r"//\s*probe:\s*(P-\d{3})\b")
 CLOSED_ISSUES = {"RESOLVED", "CLOSED"}
+CLOSED_WORK = {"DONE", "CANCELLED"}
+VALID_WORK_STATES = {"OPEN", "IN_PROGRESS", "BLOCKED", "DONE", "CANCELLED"}
 VALID_ISSUES = {"OPEN", "IN_PROGRESS", "BLOCKED", "RESOLVED", "CLOSED"}
 VALID_KINDS = {
     "SPEC_DEFECT", "IMPLEMENTATION_DEFECT", "IMPLEMENTATION_GAP",
@@ -100,13 +102,15 @@ def source_tests(root):
     return {key: sorted(set(value)) for key, value in found.items()}
 
 
-def read_issues(path):
+def read_tracking(path):
     if path is None:
-        return []
+        return [], []
     raw = read_toml(path)
-    if "issue" not in raw or not isinstance(raw["issue"], list):
-        raise ValueError("issue file must contain [[issue]] records")
-    return raw["issue"]
+    if not isinstance(raw.get("issue", []), list) or not isinstance(raw.get("work", []), list):
+        raise ValueError("tracking file must contain [[issue]] / [[work]] arrays")
+    if not raw.get("issue") and not raw.get("work"):
+        raise ValueError("tracking file must contain at least one [[issue]] or [[work]]")
+    return raw.get("issue", []), raw.get("work", [])
 
 
 def evidence_files(folder, errors):
@@ -152,13 +156,14 @@ def evidence_state(record, git):
     return "UNKNOWN"
 
 
-def compile_state(raw, *, git, markers=None, issues=None, evidence=None):
+def compile_state(raw, *, git, markers=None, issues=None, work_items=None, evidence=None):
     """Pure state calculation; returns (state, structural_errors)."""
     errors = []
     owners = unique_map(raw.get("owners", []), "owner", errors)
     probes = unique_map(raw.get("probes", []), "probe", errors)
     contracts = unique_map(raw.get("contracts", []), "contract", errors)
     issue_map = unique_map(issues or [], "issue", errors)
+    works = unique_map(work_items or [], "work", errors)
     markers = markers or {}
     evidence = evidence or []
 
@@ -210,6 +215,42 @@ def compile_state(raw, *, git, markers=None, issues=None, evidence=None):
             if cid not in contracts:
                 errors.append(f"issue {iid}: unknown contract {cid}")
 
+    for wid, work in works.items():
+        if work.get("owner") not in owners:
+            errors.append(f"work {wid}: unknown owner {work.get('owner')}")
+        if work.get("state") not in VALID_WORK_STATES:
+            errors.append(f"work {wid}: invalid state {work.get('state')}")
+        if not isinstance(work.get("summary"), str) or not work["summary"].strip():
+            errors.append(f"work {wid}: missing summary")
+        if "priority" in work and (type(work["priority"]) is not int or work["priority"] < 0):
+            errors.append(f"work {wid}: priority must be a nonnegative integer")
+        for iid in work.get("issues", []):
+            if iid not in issue_map:
+                errors.append(f"work {wid}: unknown issue {iid}")
+        for dep in work.get("blocked_by", []):
+            if dep not in works:
+                errors.append(f"work {wid}: unknown blocking work {dep}")
+
+    # Work dependencies must not deadlock through cycles.
+    visiting_work, visited_work, work_chain = set(), set(), []
+    def visit_work(wid):
+        if wid in visiting_work:
+            errors.append("work dependency cycle: " +
+                          " -> ".join(work_chain[work_chain.index(wid):] + [wid]))
+            return
+        if wid in visited_work:
+            return
+        visiting_work.add(wid)
+        work_chain.append(wid)
+        for dep in sorted(works[wid].get("blocked_by", [])):
+            if dep in works:
+                visit_work(dep)
+        work_chain.pop()
+        visiting_work.remove(wid)
+        visited_work.add(wid)
+    for wid in sorted(works):
+        visit_work(wid)
+
     # Evidence labels are declared test/probe identifiers, never inferred from filenames.
     by_probe = defaultdict(list)
     for record in evidence:
@@ -258,6 +299,16 @@ def compile_state(raw, *, git, markers=None, issues=None, evidence=None):
          if issue.get("state") not in CLOSED_ISSUES),
         key=lambda x: x["id"]
     )
+    open_work = sorted(
+        ({"id": wid, "summary": work["summary"], "owner": work["owner"],
+          "state": work["state"], "priority": work.get("priority"),
+          "issues": sorted(set(work.get("issues", []))),
+          "blocked_by": sorted(set(work.get("blocked_by", [])))}
+         for wid, work in works.items()
+         if work.get("state") not in CLOSED_WORK),
+        key=lambda w: (w["priority"] if w["priority"] is not None else 999999,
+                       w["id"])
+    )
     state = {
         "schema_version": 1,
         "project": raw.get("project", "unknown"),
@@ -265,8 +316,9 @@ def compile_state(raw, *, git, markers=None, issues=None, evidence=None):
         "summary": {"owners": len(owners), "contracts": len(contracts),
                     "probes": len(probes), "located_probes": sum(bool(p["locations"]) for p in result_probes),
                     "associated_command_passes": sum(p["execution"] == "COMMAND_PASS" for p in result_probes),
-                    "open_issues": len(open_issues)},
-        "probes": result_probes, "contracts": result_contracts, "open_issues": open_issues,
+                    "open_issues": len(open_issues), "open_work_items": len(open_work)},
+        "probes": result_probes, "contracts": result_contracts,
+        "open_issues": open_issues, "open_work_items": open_work,
         "limitations": [
             "Source paths and probe markers do not establish executable or semantic coverage.",
             "Execution PASS concerns only an observed command, not a contract or a whole system.",
@@ -289,7 +341,7 @@ def render_status(state):
              f"Revision: `{state['git']['revision'] or 'UNKNOWN'}`; dirty: `{state['git']['dirty']}`", "",
              f"Owners: {s['owners']} · Contracts: {s['contracts']} · Probes: {s['probes']}",
              f"Probe markers located: {s['located_probes']} · Current labelled command successes: {s['associated_command_passes']}",
-             f"Open issues: {s['open_issues']}", "",
+             f"Open issues: {s['open_issues']} · Open work items: {s['open_work_items']}", "",
              "Contract execution assessment is **not** semantic readiness.", "",
              "| Contract | Declared readiness | Execution assessment |",
              "| --- | --- | --- |"]
@@ -302,21 +354,37 @@ def render_status(state):
 def render_todo(state):
     lines = [GENERATED_HEADER.rstrip(), "# Outstanding work (derived, non-normative)", "",
              "Missing evidence is a verification task, **not** proof of a broken implementation.", "",
-             "## Open tracked issues", ""]
-    if not state["open_issues"]:
-        lines.append("No imported open issues.")
-    else:
-        for issue in state["open_issues"]:
-            lines.append(f"- [ ] `{md_cell(issue['id'])}` ({md_cell(issue['kind'])}; {md_cell(issue['owner'])}): {md_cell(issue['summary'])}")
+             "## Open work items", ""]
+    if not state["open_work_items"]:
+        lines.append("No imported open work items.")
+    for work in state["open_work_items"]:
+        blockers = ", ".join(work["blocked_by"]) or "none"
+        issue_refs = ", ".join(work["issues"]) or "none"
+        lines.append(f"- [ ] `{md_cell(work['id'])}` [{md_cell(work['state'])}] "
+                     f"priority={md_cell(work['priority'])}; owner={md_cell(work['owner'])}: "
+                     f"{md_cell(work['summary'])} (issues: {md_cell(issue_refs)}; "
+                     f"blocked by: {md_cell(blockers)})")
+    linked = {iid for work in state["open_work_items"] for iid in work["issues"]}
+    uncovered = [issue for issue in state["open_issues"] if issue["id"] not in linked]
+    lines += ["", "## Open issues without an open work item", ""]
+    if not uncovered:
+        lines.append("None.")
+    for issue in uncovered:
+        lines.append(f"- [ ] `{md_cell(issue['id'])}` "
+                     f"({md_cell(issue['kind'])}; {md_cell(issue['owner'])}): "
+                     f"{md_cell(issue['summary'])}")
     lines += ["", "## Unverified contract execution", ""]
     for c in state["contracts"]:
         if c["execution_assessment"] != "REVIEW_REQUIRED":
-            lines.append(f"- [ ] `{md_cell(c['id'])}`: {md_cell(c['execution_assessment'])} (declared {md_cell(c['declared_readiness'])})")
+            lines.append(f"- [ ] `{md_cell(c['id'])}`: {md_cell(c['execution_assessment'])} "
+                         f"(declared {md_cell(c['declared_readiness'])})")
         else:
-            lines.append(f"- [ ] `{md_cell(c['id'])}`: labelled commands passed; actual probe coverage and semantic review still required")
+            lines.append(f"- [ ] `{md_cell(c['id'])}`: labelled commands passed; "
+                         "actual probe coverage and semantic review still required")
     lines += ["", "## Probe implementation-location gaps", ""]
     missing = [p["id"] for p in state["probes"] if not p["locations"]]
-    lines += [f"- [ ] `{pid}`: no probe marker located (not proof of missing test)" for pid in missing]
+    lines += [f"- [ ] `{md_cell(pid)}`: no probe marker located (not proof of missing test)"
+              for pid in missing]
     if not missing:
         lines.append("None found.")
     lines.append("")
@@ -337,7 +405,7 @@ def main(argv=None):
     src = parser.add_mutually_exclusive_group(required=True)
     src.add_argument("--adapter", choices=["the-note"])
     src.add_argument("--input", type=Path, help="Normalized JSON exported from existing project authorities")
-    parser.add_argument("--issues", type=Path, help="Optional TOML [[issue]] registry owned by target project")
+    parser.add_argument("--issues", type=Path, help="Optional target-owned TOML [[issue]] and [[work]] records")
     parser.add_argument("--evidence-dir", type=Path, help="Optional captured command evidence JSON directory")
     parser.add_argument("--out", type=Path, help="Output directory, not original STATUS/TODO")
     parser.add_argument("--write", action="store_true")
@@ -353,9 +421,10 @@ def main(argv=None):
         raw = note_adapter(root, errors) if args.adapter else json.loads(args.input.read_text(encoding="utf-8"))
         if not isinstance(raw, dict):
             raise ValueError("normalized input must be a JSON object")
+        issue_rows, work_rows = read_tracking(args.issues)
         state, structural = compile_state(
             raw, git=git_status(root), markers=source_tests(root) if args.adapter else {},
-            issues=read_issues(args.issues),
+            issues=issue_rows, work_items=work_rows,
             evidence=evidence_files(args.evidence_dir, errors)
         )
         errors.extend(structural)
