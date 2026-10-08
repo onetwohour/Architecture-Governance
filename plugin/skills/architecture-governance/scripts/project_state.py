@@ -294,7 +294,7 @@ def render_status(state):
              "| Contract | Declared readiness | Execution assessment |",
              "| --- | --- | --- |"]
     for c in state["contracts"]:
-        lines.append(f"| `{c['id']}` | {c['declared_readiness']} | {c['execution_assessment']} |")
+        lines.append(f"| `{md_cell(c['id'])}` | {md_cell(c['declared_readiness'])} | {md_cell(c['execution_assessment'])} |")
     lines += ["", "See project-state.json for evidence/probe locations and proof limits.", ""]
     return "\n".join(lines)
 
@@ -307,13 +307,13 @@ def render_todo(state):
         lines.append("No imported open issues.")
     else:
         for issue in state["open_issues"]:
-            lines.append(f"- [ ] `{issue['id']}` ({issue['kind']}; {issue['owner']}): {issue['summary']}")
+            lines.append(f"- [ ] `{md_cell(issue['id'])}` ({md_cell(issue['kind'])}; {md_cell(issue['owner'])}): {md_cell(issue['summary'])}")
     lines += ["", "## Unverified contract execution", ""]
     for c in state["contracts"]:
         if c["execution_assessment"] != "REVIEW_REQUIRED":
-            lines.append(f"- [ ] `{c['id']}`: {c['execution_assessment']} (declared {c['declared_readiness']})")
+            lines.append(f"- [ ] `{md_cell(c['id'])}`: {md_cell(c['execution_assessment'])} (declared {md_cell(c['declared_readiness'])})")
         else:
-            lines.append(f"- [ ] `{c['id']}`: execution PASS for listed probes; semantic review still required")
+            lines.append(f"- [ ] `{md_cell(c['id'])}`: execution PASS for listed probes; semantic review still required")
     lines += ["", "## Probe implementation-location gaps", ""]
     missing = [p["id"] for p in state["probes"] if not p["locations"]]
     lines += [f"- [ ] `{pid}`: no probe marker located (not proof of missing test)" for pid in missing]
