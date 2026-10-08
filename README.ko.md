@@ -26,6 +26,7 @@ claude plugin install architecture-governance@onetwohour
 | `audit` | 코드뿐 아니라 **설계 문서 자체의 자기모순**까지 감사 |
 | `review` | Git 변경 내용과 아키텍처 계약 비교 |
 | `verify` | 실제 테스트 실행과 증거·한계 확인 |
+| `project` | 정본 기반 ProjectState 및 STATUS/TODO 파생 출력 |
 | `adopt` | 프로젝트의 기존 CI·규칙·검증 도구와 통합 |
 
 예시:
@@ -48,6 +49,22 @@ claude plugin install architecture-governance@onetwohour
 6. **증거 없는 완료 금지:** 구현 파일 존재, 테스트 등록, 실행 성공, 아키텍처 적합성을 서로 다른 주장으로 취급합니다.
 
 기존 101개 세부 규칙을 즉시 폐기하지 않고, 5개 참조 파일로 유지했습니다. 새로 추가한 5개 워크플로가 이 규칙들을 **언제 어떻게 적용할지** 안내합니다.
+
+## 프로젝트 상태 컴파일과 영향 분석 (v3)
+
+이제 `project` 모드에서 프로젝트의 **기존 정본**을 분석하여 상태와 미완료 항목을 파생 출력으로 만들 수 있습니다. The Note 어댑터는 `architecture.toml`, `probes.toml`, `readiness.toml`과 Rust Probe 마커를 읽지만 원본을 수정하지 않습니다.
+
+```bash
+python plugin/skills/architecture-governance/scripts/project_state.py --root /path/to/The-Note --adapter the-note --out /tmp/governance-output --write
+python plugin/skills/architecture-governance/scripts/project_state.py --root /path/to/The-Note --adapter the-note --out /tmp/governance-output --check
+python plugin/skills/architecture-governance/scripts/impact.py --root /path/to/The-Note --adapter the-note --owner core-runtime
+```
+
+산출물은 `project-state.json`, `STATUS.generated.md`, `TODO.generated.md`입니다. 실제 루트의 STATUS/TODO를 자동으로 덮어쓰지 않습니다. 결함과 작업의 기존 소유권을 조사하고, 원본 항목을 손실 없이 이관한 뒤에만 생성 뷰로 전환해야 합니다.
+
+Probe 마커의 존재는 테스트 통과를 의미하지 않으며, 개별 실행 증거 PASS도 계약의 의미적 적합성을 증명하지 않습니다. 영향 분석 결과는 선언된 관계에서 도출한 **검토 후보**이며 전체 영향 범위의 보증이 아닙니다. 다른 프로젝트는 기존 Registry에서 정규화 JSON을 일회성으로 내보내어 `--input`에 전달할 수 있습니다.
+
+[Project Governance 워크플로](plugin/skills/architecture-governance/workflows/project-governance.md) · [입력/출력 형식](plugin/skills/architecture-governance/references/project-state-format.md) · [규칙 충돌 가능성 검토](doctrine/POLICY_REVIEW.md)
 
 ## 선택형 검사 도구
 

@@ -1,7 +1,7 @@
 ---
 name: architecture-governance
 description: Architecture-first engineering for non-trivial code or specification changes. Use for subsystem design, implementation planning, refactors, architecture audits, contract changes, concurrency, persistence, plugin boundaries, and evidence-based verification. Detect duplicate authority, hidden ordering, spec gaps, uncontrolled change scope, and unproven completion. Skip truly isolated edits without semantic impact.
-argument-hint: "[plan|implement|audit|review|verify|adopt] [task or target]"
+argument-hint: "[plan|implement|audit|review|verify|project|adopt] [task or target]"
 ---
 
 # Architecture Governance
@@ -19,6 +19,7 @@ Read `$ARGUMENTS`. The first word selects a mode; absent or unrecognized mode de
 | `audit` | `workflows/audit.md` | Audit architecture, including the normative documents themselves |
 | `review` | `workflows/audit.md` | Compare a proposed diff with its owners and failure cases |
 | `verify` | `workflows/verify.md` | Run and characterize actual evidence |
+| `project` | `workflows/project-governance.md` | Compile project state from existing owners; reconcile status/TODO |
 | `adopt` | `workflows/adopt.md` | Integrate the skill with a project without duplicating its authority |
 
 Use a lightweight loop for isolated edits; avoid unnecessary artifacts.
@@ -44,12 +45,13 @@ Read these five rule files selectively; target contracts remain authoritative.
 - `references/evidence.md` — falsification, readiness and proof boundaries
 - `references/delivery.md` — implementation workflow and completion
 
-For architecture changes read system/decisions; for verification/readiness read evidence.
-
 ## Executable helpers (opt-in)
 
 - `python scripts/change_scope.py --repo <path> --plan <json> [--base HEAD]` compares changed paths against an explicit *temporary* scope plan. Unexpected changes require review, not automatic condemnation.
 - `python scripts/run_validation.py --repo <path> --label <id> --output <path> -- <argv...>` executes **one real command** without a shell and records evidence. It does not prove semantic correctness beyond that command.
+
+- `python scripts/impact.py --adapter the-note --owner <id>` lists candidate dependents/probes.
+- `python scripts/project_state.py --adapter the-note --out <dir> --write` derives reports, not readiness.
 
 Use native build, probe and CI checks. Do not silently install hooks; enforcement belongs in project CI.
 

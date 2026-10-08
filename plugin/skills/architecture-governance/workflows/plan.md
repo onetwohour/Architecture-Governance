@@ -10,6 +10,8 @@
 6. **Describe the plan.** State expected paths and reason for each; normative owners affected; invariants/forbidden states; evidence to run; compatibility/data obligations; unclear items; rollback or recovery concerns where pertinent.
 7. **Record the review checkpoint.** An unexpected new owner, changed dependency direction, new fallback/timeout, altered public contract or additional protected path means re-evaluate this plan before proceeding.
 
+For a project with declared owner dependencies, `scripts/impact.py` can list **candidate** dependent owners, contracts and probes. It is incomplete when owner edges or runtime effects are not declared; semantic review must widen the required checks accordingly.
+
 The path plan can be recorded as short-lived JSON for `change_scope.py`:
 
 ```json

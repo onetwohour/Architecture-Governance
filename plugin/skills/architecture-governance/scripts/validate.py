@@ -33,13 +33,14 @@ if manifest_path.exists():
 
 refs = {name: ROOT / "references" / f"{name}.md"
         for name in ("system", "decisions", "writing", "evidence", "delivery")}
-workflows = ("plan", "implement", "audit", "verify", "adopt")
+workflows = ("plan", "implement", "audit", "verify", "project-governance", "adopt")
 for name in workflows:
     path = ROOT / "workflows" / f"{name}.md"
     req(path.exists(), f"missing workflows/{name}.md")
     req(f"workflows/{name}.md" in skill_text, f"unrouted workflow {name}")
-for name in ("change_scope.py", "run_validation.py"):
+for name in ("change_scope.py", "run_validation.py", "project_state.py", "impact.py"):
     req((ROOT / "scripts" / name).exists(), f"missing scripts/{name}")
+req((ROOT / "references" / "project-state-format.md").exists(), "missing project-state-format reference")
 for name in ("architecture-review.md", "contract.md", "decision-record.md",
              "probe.md", "change-scope.json"):
     req((ROOT / "templates" / name).exists(), f"missing template {name}")

@@ -21,13 +21,16 @@ required = [
     ROOT / "doctrine" / "ENGINEERING_CONSTITUTION.md",
     ROOT / "plugin" / ".claude-plugin" / "plugin.json",
     ROOT / "tests" / "test_governance_runtime.py",
+    ROOT / "tests" / "test_project_state.py",
+    ROOT / "tests" / "test_impact.py",
+    ROOT / "doctrine" / "POLICY_REVIEW.md",
     SKILL / "SKILL.md",
     *[SKILL / "references" / f"{name}.md" for name in
-      ("index", "system", "decisions", "writing", "evidence", "delivery")],
+      ("index", "system", "decisions", "writing", "evidence", "delivery", "project-state-format")],
     *[SKILL / "workflows" / f"{name}.md" for name in
-      ("plan", "implement", "audit", "verify", "adopt")],
+      ("plan", "implement", "audit", "verify", "project-governance", "adopt")],
     *[SKILL / "scripts" / name for name in
-      ("validate.py", "change_scope.py", "run_validation.py")],
+      ("validate.py", "change_scope.py", "run_validation.py", "project_state.py", "impact.py")],
     SKILL / "templates" / "change-scope.json",
 ]
 for path in required:

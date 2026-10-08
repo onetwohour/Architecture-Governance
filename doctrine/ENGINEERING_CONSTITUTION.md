@@ -10,4 +10,6 @@ The model-facing policy is partitioned so a normal run loads only the rules rele
 - [Evidence rules](../plugin/skills/architecture-governance/references/evidence.md)
 - [Delivery rules](../plugin/skills/architecture-governance/references/delivery.md)
 
+For potential rule interactions and unresolved validation risks, see [Policy Review](POLICY_REVIEW.md), which is non-normative and does not add rules.
+
 These files are the normative policy surface. This index does not redefine their rules.

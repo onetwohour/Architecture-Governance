@@ -26,6 +26,7 @@ The command is `/architecture-governance:architecture-governance` when invoked v
 | `audit` | `... audit normative docs and implementation` | Falsifiable, source-linked findings |
 | `review` | `... review my current git diff` | Semantic diff assessment and proof gaps |
 | `verify` | `... verify the persistence probes` | Actual test/evidence summary |
+| `project` | Compile derived status/TODO from existing source registries |
 | `adopt` | `... adopt this in my project` | Local integration guidance without duplicate authorities |
 
 Modes are arguments to **one** Skill, not six separate Skills. Without a mode it defaults to planning, unless the request clearly indicates another task.
@@ -40,6 +41,22 @@ Modes are arguments to **one** Skill, not six separate Skills. Without a mode it
 6. Report PASS, FAIL, UNKNOWN, STALE or REVIEW_REQUIRED with evidence and limits.
 
 Five **workflow files** make these steps operational, while five existing **rule references** retain the 101 rules for ownership, runtime semantics, decision-making, specification writing and evidence. On-demand loading keeps routine work small.
+
+## Project-state governance (v3)
+
+The `project` mode guides a **lossless migration** from manually maintained STATUS/TODO to derived, non-normative views. It does not impose a new project database. Run the opt-in compiler against the target project's **existing sources**:
+
+```bash
+python plugin/skills/architecture-governance/scripts/project_state.py --root /path/to/The-Note --adapter the-note --out /tmp/governance-output --write
+python plugin/skills/architecture-governance/scripts/project_state.py --root /path/to/The-Note --adapter the-note --out /tmp/governance-output --check
+python plugin/skills/architecture-governance/scripts/impact.py --root /path/to/The-Note --adapter the-note --owner core-runtime
+```
+
+The Note adapter reads `docs/architecture.toml`, `docs/quality/probes.toml`, `docs/quality/readiness.toml` and Rust probe markers. It does not edit the project or assert that marker presence means passing tests. Other projects supply an **exported normalized JSON** through `--input`, not a second manually maintained source. See [project governance workflow](plugin/skills/architecture-governance/workflows/project-governance.md) and [exchange format](plugin/skills/architecture-governance/references/project-state-format.md).
+
+The outputs are `project-state.json`, `STATUS.generated.md` and `TODO.generated.md` in the explicitly chosen directory. They are **projections**, not replacements for root STATUS/TODO until an audited migration is complete. Probe commands may be associated with evidence records via `--evidence-dir`, but PASS indicates only individual command execution, never complete semantic readiness. Reverse dependency impact results are **candidates**, not a sound/complete affected-test set.
+
+[Policy tension review](doctrine/POLICY_REVIEW.md) highlights possible conflicting interpretations of the existing 101 rules and the remaining manual evaluation requirements.
 
 ## Optional executable helpers
 
@@ -80,6 +97,7 @@ See [adoption workflow](plugin/skills/architecture-governance/workflows/adopt.md
 python plugin/skills/architecture-governance/scripts/validate.py
 python tests/validate_repository.py
 python -m unittest discover -s tests -p 'test_*.py' -v
+python -m compileall -q plugin/skills/architecture-governance/scripts tests
 ```
 
 These tests check plugin structure, rule inventory and helper behavior. They do **not** establish target-project architecture correctness.

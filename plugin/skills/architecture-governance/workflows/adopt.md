@@ -9,6 +9,8 @@ This plugin is **not** the project's architecture registry, CI, test framework o
 5. Optionally create an ephemeral plan for `change_scope.py`. List generated files under `protected_paths` *only where they are actually generated*. Never globally assume STATUS.md or TODO.md must be generated.
 6. Run the validation helper only when a portable evidence record helps. Avoid committing logs or JSON artifacts unless the project's evidence retention policy explicitly calls for it.
 
+For large hand-maintained STATUS/TODO files, load `workflows/project-governance.md` to migrate with provenance and without duplicating owner or probe registries. Do not replace the target's root files until complete reconciliation and CI freshness tests pass.
+
 ## The Note example (not a universal dependency)
 
 A The Note integration should resolve its existing normative owners, `architecture.toml`, `probes.toml`, `readiness.toml`, Rust workspace tests and architecture lint. It must not create parallel definitions of those facts inside this skill.

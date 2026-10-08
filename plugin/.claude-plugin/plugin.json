@@ -2,8 +2,8 @@
   "$schema": "https://json.schemastore.org/claude-code-plugin-manifest.json",
   "name": "architecture-governance",
   "displayName": "Architecture Governance",
-  "version": "2.0.0",
-  "description": "Architecture-first engineering with owner-aware workflows, change-scope audits, and honest execution evidence.",
+  "version": "3.0.0",
+  "description": "Owner-first engineering and project-state governance with dependency impact mapping and evidence-aware reports.",
   "author": {
     "name": "Onetwohour"
   },
