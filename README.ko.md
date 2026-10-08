@@ -62,7 +62,7 @@ python plugin/skills/architecture-governance/scripts/impact.py --root /path/to/T
 
 산출물은 `project-state.json`, `STATUS.generated.md`, `TODO.generated.md`입니다. 실제 루트의 STATUS/TODO를 자동으로 덮어쓰지 않습니다. 결함과 작업의 기존 소유권을 조사하고, 원본 항목을 손실 없이 이관한 뒤에만 생성 뷰로 전환해야 합니다.
 
-Probe 마커의 존재는 테스트 통과를 의미하지 않으며, 개별 실행 증거 PASS도 계약의 의미적 적합성을 증명하지 않습니다. 영향 분석 결과는 선언된 관계에서 도출한 **검토 후보**이며 전체 영향 범위의 보증이 아닙니다. 다른 프로젝트는 기존 Registry에서 정규화 JSON을 일회성으로 내보내어 `--input`에 전달할 수 있습니다.
+Probe 마커의 존재는 테스트 통과를 의미하지 않으며, COMMAND_PASS는 해당 라벨의 개별 명령 성공만 뜻하며 Probe의 검증이나 계약의 의미적 적합성을 증명하지 않습니다. 영향 분석 결과는 선언된 관계에서 도출한 **검토 후보**이며 전체 영향 범위의 보증이 아닙니다. 다른 프로젝트는 기존 Registry에서 정규화 JSON을 일회성으로 내보내어 `--input`에 전달할 수 있습니다.
 
 [Project Governance 워크플로](plugin/skills/architecture-governance/workflows/project-governance.md) · [입력/출력 형식](plugin/skills/architecture-governance/references/project-state-format.md) · [규칙 충돌 가능성 검토](doctrine/POLICY_REVIEW.md)
 

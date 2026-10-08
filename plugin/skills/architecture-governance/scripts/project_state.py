@@ -144,11 +144,11 @@ def evidence_state(record, git):
             or after.get("worktree_dirty") is not False):
         return "STALE"
     if record.get("result") == "FAIL" and isinstance(record.get("exit_code"), int):
-        return "FAIL"
+        return "COMMAND_FAIL"
     if (record.get("result") == "PASS" and record.get("exit_code") == 0
             and isinstance(record.get("command_argv"), list)
             and record["command_argv"]):
-        return "PASS"
+        return "COMMAND_PASS"
     return "UNKNOWN"
 
 
@@ -239,7 +239,7 @@ def compile_state(raw, *, git, markers=None, issues=None, evidence=None):
         required = contract.get("mandatory_probes", [])
         statuses = [by_id[pid]["execution"] for pid in required if pid in by_id]
         # Report imported readiness as a CLAIM, not verified by the compiler.
-        assessment = ("BLOCKED" if "FAIL" in statuses else
+        assessment = ("BLOCKED" if "COMMAND_FAIL" in statuses else
                       "STALE" if "STALE" in statuses else
                       "UNKNOWN" if not required or "UNKNOWN" in statuses else
                       "REVIEW_REQUIRED")
@@ -264,7 +264,7 @@ def compile_state(raw, *, git, markers=None, issues=None, evidence=None):
         "git": git,
         "summary": {"owners": len(owners), "contracts": len(contracts),
                     "probes": len(probes), "located_probes": sum(bool(p["locations"]) for p in result_probes),
-                    "executed_pass_probes": sum(p["execution"] == "PASS" for p in result_probes),
+                    "associated_command_passes": sum(p["execution"] == "COMMAND_PASS" for p in result_probes),
                     "open_issues": len(open_issues)},
         "probes": result_probes, "contracts": result_contracts, "open_issues": open_issues,
         "limitations": [
@@ -288,7 +288,7 @@ def render_status(state):
              f"Project: `{state['project']}`",
              f"Revision: `{state['git']['revision'] or 'UNKNOWN'}`; dirty: `{state['git']['dirty']}`", "",
              f"Owners: {s['owners']} · Contracts: {s['contracts']} · Probes: {s['probes']}",
-             f"Probe markers located: {s['located_probes']} · Current clean execution PASS: {s['executed_pass_probes']}",
+             f"Probe markers located: {s['located_probes']} · Current labelled command successes: {s['associated_command_passes']}",
              f"Open issues: {s['open_issues']}", "",
              "Contract execution assessment is **not** semantic readiness.", "",
              "| Contract | Declared readiness | Execution assessment |",
@@ -313,7 +313,7 @@ def render_todo(state):
         if c["execution_assessment"] != "REVIEW_REQUIRED":
             lines.append(f"- [ ] `{md_cell(c['id'])}`: {md_cell(c['execution_assessment'])} (declared {md_cell(c['declared_readiness'])})")
         else:
-            lines.append(f"- [ ] `{md_cell(c['id'])}`: execution PASS for listed probes; semantic review still required")
+            lines.append(f"- [ ] `{md_cell(c['id'])}`: labelled commands passed; actual probe coverage and semantic review still required")
     lines += ["", "## Probe implementation-location gaps", ""]
     missing = [p["id"] for p in state["probes"] if not p["locations"]]
     lines += [f"- [ ] `{pid}`: no probe marker located (not proof of missing test)" for pid in missing]

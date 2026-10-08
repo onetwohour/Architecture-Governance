@@ -49,7 +49,7 @@ The compiler accepts JSON files emitted by `run_validation.py`. A record's `labe
 
 The current compiler reports:
 - `implementation: LOCATED/UNKNOWN`: source marker locations, never runnable-test certification.
-- `execution: PASS/FAIL/UNKNOWN/STALE`: only observed individual-command results.
+- `execution: COMMAND_PASS/COMMAND_FAIL/UNKNOWN/STALE`: labelled individual-command results, not proof the command actually tests the Probe.
 - `execution_assessment: BLOCKED/STALE/UNKNOWN/REVIEW_REQUIRED`: summary across required probes.
 - `semantic_readiness: NOT_ASSESSED`: deliberate. The project remains responsible for verifying normative conformance.
 

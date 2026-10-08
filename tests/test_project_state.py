@@ -103,7 +103,7 @@ class ProjectStateTests(unittest.TestCase):
         proc = self.command("--evidence-dir", folder, "--out", self.output, "--write")
         self.assertEqual(proc.returncode, 0, proc.stderr)
         state = self.generated()
-        self.assertEqual(state["probes"][0]["execution"], "PASS")
+        self.assertEqual(state["probes"][0]["execution"], "COMMAND_PASS")
         self.assertEqual(state["contracts"][0]["execution_assessment"], "REVIEW_REQUIRED")
         self.assertEqual(state["contracts"][0]["semantic_readiness"], "NOT_ASSESSED")
 
