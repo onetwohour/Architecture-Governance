@@ -6,7 +6,7 @@ argument-hint: "[plan|implement|audit|review|verify|adopt] [task or target]"
 
 # Architecture Governance
 
-You are working **within the target project's architecture**, not installing a universal architecture. This skill governs the *method*; the target's normative owners govern the *meaning*. Its scripts are read-only inspection or explicit test runners, not semantic judges.
+You are working **within the target project's architecture**, not installing a universal architecture. The target's owners govern meaning; this skill governs method, not semantic truth.
 
 ## Arguments and routing
 
@@ -21,7 +21,7 @@ Read `$ARGUMENTS`. The first word selects a mode; absent or unrecognized mode de
 | `verify` | `workflows/verify.md` | Run and characterize actual evidence |
 | `adopt` | `workflows/adopt.md` | Integrate the skill with a project without duplicating its authority |
 
-If the task is a trivial isolated edit, use a lightweight version of the loop. Do not demand heavyweight architecture artifacts merely because this skill was invoked.
+Use a lightweight loop for isolated edits; avoid unnecessary artifacts.
 
 ## Non-negotiable method
 
@@ -36,7 +36,7 @@ When a specification cannot determine externally observable behavior, report the
 
 ## On-demand rule books
 
-These five files contain the **101 existing active engineering rules**; load only the relevant set. They are guidance *subordinate* to the target project's normative contracts.
+Read these five rule files selectively; target contracts remain authoritative.
 
 - `references/system.md` — ownership, runtime, persistence, concurrency and security
 - `references/decisions.md` — decision classification, alternatives and escalation
@@ -44,14 +44,14 @@ These five files contain the **101 existing active engineering rules**; load onl
 - `references/evidence.md` — falsification, readiness and proof boundaries
 - `references/delivery.md` — implementation workflow and completion
 
-Read `references/system.md` plus `references/decisions.md` for architectural changes; `references/evidence.md` for every verification or readiness claim. Templates under `templates/` are optional forms, not new owners.
+For architecture changes read system/decisions; for verification/readiness read evidence.
 
 ## Executable helpers (opt-in)
 
 - `python scripts/change_scope.py --repo <path> --plan <json> [--base HEAD]` compares changed paths against an explicit *temporary* scope plan. Unexpected changes require review, not automatic condemnation.
 - `python scripts/run_validation.py --repo <path> --label <id> --output <path> -- <argv...>` executes **one real command** without a shell and records evidence. It does not prove semantic correctness beyond that command.
 
-Use repository-native build, lint, probe, conformance and CI commands when available. Never replace them with this skill's helpers. Do not install hooks or block project writes silently. Persistent enforcement belongs in the target project's own CI and policies.
+Use native build, probe and CI checks. Do not silently install hooks; enforcement belongs in project CI.
 
 ## Finish
 
