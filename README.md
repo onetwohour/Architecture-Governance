@@ -64,6 +64,10 @@ python plugin/skills/architecture-governance/scripts/run_validation.py \
 
 Command arguments run **without a shell**. The JSON records exit status, platform, Git revision, dirty worktree status and bounded output. A green command is evidence only for its own assertions; a dirty-worktree pass is not a reusable clean-commit certificate. The helper does not replace CI, security probes, or architecture review.
 
+## Agent behavior evaluation
+
+[Adversarial scenarios](evaluations/adversarial-cases.md) define manual checks for duplicate authority, silent fallbacks, stale evidence, scope laundering and proportionate handling of small edits. Script tests cannot substitute for these model behavior evaluations.
+
 ## Limits and adoption
 
 A Skill cannot enforce itself if not invoked, cannot guarantee that every modification passes through a hook, and cannot certify semantic ownership from file names. Connect your project's native architecture gates and adversarial tests to its **own CI/branch protection**. Do not duplicate its owner registry, probes, readiness facts or issue tracker inside this plugin.
