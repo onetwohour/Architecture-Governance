@@ -166,6 +166,24 @@ def compile_state(raw, *, git, markers=None, issues=None, evidence=None):
         for dep in owner.get("depends_on", []):
             if dep not in owners:
                 errors.append(f"owner {oid}: unknown dependency {dep}")
+    # The semantic owner-dependency registry is a DAG; report a cycle explicitly.
+    visiting, visited, chain = set(), set(), []
+    def visit_owner(oid):
+        if oid in visiting:
+            errors.append("owner dependency cycle: " + " -> ".join(chain[chain.index(oid):] + [oid]))
+            return
+        if oid in visited:
+            return
+        visiting.add(oid)
+        chain.append(oid)
+        for dep in sorted(owners[oid].get("depends_on", [])):
+            if dep in owners:
+                visit_owner(dep)
+        chain.pop()
+        visiting.remove(oid)
+        visited.add(oid)
+    for oid in sorted(owners):
+        visit_owner(oid)
     for pid, probe in probes.items():
         for oid in probe.get("owners", []):
             if oid not in owners:
@@ -258,6 +276,10 @@ def compile_state(raw, *, git, markers=None, issues=None, evidence=None):
         ],
     }
     return state, sorted(set(errors))
+
+
+def md_cell(value):
+    return str(value).replace("\\", "\\\\").replace("|", "\\|").replace("\n", " ").replace("`", "\\`")
 
 
 def render_status(state):
