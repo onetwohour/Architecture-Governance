@@ -2,8 +2,8 @@
   "$schema": "https://json.schemastore.org/claude-code-plugin-manifest.json",
   "name": "architecture-governance",
   "displayName": "Architecture Governance",
-  "version": "1.3.0",
-  "description": "Token-efficient architecture and specification governance with explicit ownership, contracts, evidence, and on-demand rule loading.",
+  "version": "2.0.0",
+  "description": "Architecture-first engineering with owner-aware workflows, change-scope audits, and honest execution evidence.",
   "author": {
     "name": "Onetwohour"
   },
@@ -15,6 +15,7 @@
     "specification",
     "contracts",
     "review",
-    "evidence"
+    "evidence",
+    "verification"
   ]
 }

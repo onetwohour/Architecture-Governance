@@ -1,0 +1,8 @@
+{
+  "allowed_paths": [
+    "src/**",
+    "tests/**"
+  ],
+  "protected_paths": [],
+  "reason": "Example only. Replace with paths justified by the actual task and project."
+}

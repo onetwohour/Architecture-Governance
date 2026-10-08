@@ -1,53 +1,58 @@
 ---
 name: architecture-governance
-description: Review or change non-trivial software architecture and specifications with explicit ownership, contracts, ordering, evidence, and completion criteria. Use for architecture design/review, specification cleanup, large refactors, implementation-vs-design audits, structural defects, shared abstractions, persistence/concurrency/retry semantics, or work that risks parallel authorities or hidden ordering. Skip for trivial isolated edits with no contract or architecture impact.
+description: Architecture-first engineering for non-trivial code or specification changes. Use for subsystem design, implementation planning, refactors, architecture audits, contract changes, concurrency, persistence, plugin boundaries, and evidence-based verification. Detect duplicate authority, hidden ordering, spec gaps, uncontrolled change scope, and unproven completion. Skip truly isolated edits without semantic impact.
+argument-hint: "[plan|implement|audit|review|verify|adopt] [task or target]"
 ---
 
 # Architecture Governance
 
-Use the target project's own domain model. This skill supplies decision and review discipline, not product topology.
+You are working **within the target project's architecture**, not installing a universal architecture. This skill governs the *method*; the target's normative owners govern the *meaning*. Its scripts are read-only inspection or explicit test runners, not semantic judges.
 
-## Default loop
+## Arguments and routing
 
-1. Separate normative design, implementation status, roadmap, research, tests, generated indexes, and code.
-2. Identify the semantic owner, mutation authority, dependencies, producers/consumers, lifecycle, failure/retry, persistence, concurrency, and extension points that matter.
-3. Reuse or redesign the existing owner before creating another manager, store, registry, dispatcher, bridge, or authority path.
-4. Close every applicable contract dimension: identity/equality, ownership, state, transition, authority, ordering, visibility/atomicity, failure, cancellation, retry/idempotency, replay, persistence, reconfiguration, concurrency, unknown/opaque handling, observability.
-5. Make correctness-relevant dependencies and ordering explicit; never rely on registration order, container iteration, thread timing, callback timing, or hidden mutable wiring.
-6. Validate important invariants with negative cases and forbidden observable states.
-7. Do not claim readiness or completion without evidence.
+Read `$ARGUMENTS`. The first word selects a mode; absent or unrecognized mode defaults to **plan**, treating all arguments as the task. If the user's intent clearly requests another mode, use it. Load the corresponding workflow:
 
-## Hard defaults
+| Mode | Read | Purpose |
+| --- | --- | --- |
+| `plan` | `workflows/plan.md` | Discover owners, contracts, risks and tests before changing code |
+| `implement` | `workflows/implement.md` | Plan, change, diff-audit, verify |
+| `audit` | `workflows/audit.md` | Audit architecture, including the normative documents themselves |
+| `review` | `workflows/audit.md` | Compare a proposed diff with its owners and failure cases |
+| `verify` | `workflows/verify.md` | Run and characterize actual evidence |
+| `adopt` | `workflows/adopt.md` | Integrate the skill with a project without duplicating its authority |
 
-- One semantic responsibility has one normative authority.
-- Current code is implementation evidence, not automatic architecture authority.
-- Reuse before create; patch budget defaults to zero for owner-adjacent workarounds.
-- Extend the canonical surface before using an escape hatch.
-- Shared abstractions need independent evidence: normally a second real consumer/case or a closed domain law.
-- Unknown state is preserved, not guessed.
-- Fallbacks, defaults, bounds, and timeouts need an owner and a reason; providers do not invent them.
-- Physical/runtime identifiers and self-asserted payloads do not become semantic or security identity.
-- Performance never justifies bypassing ownership, authority, commit, isolation, or validation boundaries.
-- Known in-scope architecture/spec violations are not "done" because they are labeled temporary.
+If the task is a trivial isolated edit, use a lightweight version of the loop. Do not demand heavyweight architecture artifacts merely because this skill was invoked.
 
-## Load only what the task needs
+## Non-negotiable method
 
-- Architecture, runtime, ownership, state, persistence, security → `references/system.md`
-- "Which approach?", ambiguity, product-vs-engineering decisions → `references/decisions.md`
-- Specs, docs, comments, wording, references → `references/writing.md`
-- Tests, probes, readiness, security/performance evidence → `references/evidence.md`
-- Change workflow, completion, greenfield compatibility → `references/delivery.md`
+1. **Locate the authority.** Inspect repository instructions, owner/contract registries where present, normative documents and their declared dependencies. Do not infer intended architecture from STATUS/TODO, old code, or this skill.
+2. **Understand before extending.** Trace actual producers, consumers, state mutation paths, identity, lifecycle, persistence, failures and existing extension points relevant to the change. Prefer repairing the existing owner to a second manager/store/registry or a compatibility patch.
+3. **Classify the work.** Distinguish local implementation choice, owner-local contract defect, system-wide law change and an unresolved product-policy decision. Diff size alone is not architecture impact.
+4. **Make a risk-proportionate plan.** Identify expected paths, owner/contract impact, forbidden states, affected probes and verification commands. Escalate if implementation discovers new semantics or crosses an unplanned authority boundary.
+5. **Challenge the result.** Verify negative/failure paths, cancellation vs. external completion, stale generation, ordering, retry and replay where relevant. Inspect the *actual* diff, not only the intended edits.
+6. **Separate claims.** Source exists ≠ test implemented ≠ test executed ≠ invariant proven. Present PASS, FAIL, UNKNOWN, STALE, or REVIEW_REQUIRED with evidence and its limits. Never upgrade unknown to pass.
 
-## Writing
+When a specification cannot determine externally observable behavior, report the precise gap and repair the responsible normative owner before depending on a guessed default. Never hide design defects behind fallbacks, timeouts, special host paths or test-only bypasses.
 
-Write model-facing guidance in concise English. Match the target project's requested output language.
+## On-demand rule books
 
-Do not anthropomorphize software with unmodeled intent, desire, knowledge, memory, or judgment. Name the actual state, policy, authority, observation, transition, or stored fact. Ordinary active voice is fine when it names a defined operation: "the parser rejects invalid input" is precise; "the cache knows" is not.
+These five files contain the **101 existing active engineering rules**; load only the relevant set. They are guidance *subordinate* to the target project's normative contracts.
 
-Use stable semantic references (path + concept/short rule ID), not positional section references such as §12 or "chapter 3, section 2".
+- `references/system.md` — ownership, runtime, persistence, concurrency and security
+- `references/decisions.md` — decision classification, alternatives and escalation
+- `references/writing.md` — self-contained specifications and precise language
+- `references/evidence.md` — falsification, readiness and proof boundaries
+- `references/delivery.md` — implementation workflow and completion
 
-## Output
+Read `references/system.md` plus `references/decisions.md` for architectural changes; `references/evidence.md` for every verification or readiness claim. Templates under `templates/` are optional forms, not new owners.
 
-For architecture-changing work, make the result traceable enough to identify: owner/authority, reused or redesigned abstraction, changed contracts, explicit dependency/order, state ownership, commit/effect/ingress boundaries, failure/retry behavior, replay/nondeterminism impact, concurrency/stale-result handling, evidence, and remaining in-scope defects.
+## Executable helpers (opt-in)
 
-Use templates only when they improve the result. Keep ordinary answers compact.
+- `python scripts/change_scope.py --repo <path> --plan <json> [--base HEAD]` compares changed paths against an explicit *temporary* scope plan. Unexpected changes require review, not automatic condemnation.
+- `python scripts/run_validation.py --repo <path> --label <id> --output <path> -- <argv...>` executes **one real command** without a shell and records evidence. It does not prove semantic correctness beyond that command.
+
+Use repository-native build, lint, probe, conformance and CI commands when available. Never replace them with this skill's helpers. Do not install hooks or block project writes silently. Persistent enforcement belongs in the target project's own CI and policies.
+
+## Finish
+
+Give a compact, traceable report: owner and invariant; reused/changed abstractions; affected files/contracts; actual checks and results (commands, revision/worktree state); unverified/negative paths; outstanding blockers. If a requested change cannot be safely completed, report the exact boundary, not a fabricated success.

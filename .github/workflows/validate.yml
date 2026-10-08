@@ -14,3 +14,5 @@ jobs:
           python-version: '3.12'
       - run: python plugin/skills/architecture-governance/scripts/validate.py
       - run: python tests/validate_repository.py
+      - run: python -m unittest discover -s tests -p 'test_*.py' -v
+      - run: python -m compileall -q plugin/skills/architecture-governance/scripts tests

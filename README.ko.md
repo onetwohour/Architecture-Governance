@@ -2,62 +2,93 @@
 
 [English](README.md) · **한국어**
 
-Architecture Governance는 단순한 코드 수정으로 끝나지 않는 작업에 쓰는 Claude Code 스킬입니다.
+프로젝트의 기존 설계를 보존하면서 코드를 변경하기 위한 **Claude Code 통합 스킬**입니다. 설계 분석, 구현, 아키텍처 감사, 변경 리뷰, 실제 검증을 하나의 스킬에서 처리합니다.
 
-큰 리팩터링을 하거나 새 서브시스템을 붙일 때, 영속성이나 동시성을 도입할 때, 플러그인 경계나 API를 다시 잡을 때는 코드 몇 줄보다 더 중요한 문제가 생깁니다. 상태를 누가 관리하는지, 어떤 순서가 보장되는지, 재시작 뒤 무엇이 남는지, 실패를 어디에서 처리하는지가 애매하면 구현이 돌아가더라도 구조는 금방 꼬입니다.
+범용 아키텍처 프레임워크를 강요하지 않습니다. 프로젝트의 정본 문서와 계약을 먼저 확인하고, 이미 존재하는 책임을 중복하지 않도록 변경을 검토하며, 테스트 실행 결과와 실제로 증명된 범위를 구별합니다.
 
-이 스킬은 그런 상황에서 새 매니저나 레지스트리, 캐시, 디스패처, 어댑터를 하나 더 만들기 전에 기존 구조부터 확인하게 합니다.
+## 설치
 
-## 언제 쓰나
+```bash
+claude plugin marketplace add onetwohour/claude-plugins
+claude plugin install architecture-governance@onetwohour
+```
 
-주로 이런 작업에 맞습니다.
+설치 후 Claude Code 세션을 새로 시작하세요. 배포는 기존 플러그인 마켓플레이스를 통해 이루어지며, 이 저장소의 `plugin/` 디렉터리가 소스입니다.
 
-- 새 서브시스템 설계나 기존 구조 검토
-- 규모가 큰 리팩터링 계획
-- 아키텍처 문서나 프로토콜 명세 정리
-- 영속성, 재시도, 취소, 동시성 도입
-- 플러그인·프로세스·신뢰 경계 설계
-- 지금 문제가 단순 구현 버그인지 설계 자체의 문제인지 판단해야 할 때
+## 사용법
 
-## 무엇을 보나
+`/architecture-governance:architecture-governance` 뒤에 모드와 작업을 입력합니다. 하나의 스킬에서 다음 작업을 지원합니다.
 
-규칙은 실제로 자주 문제를 만드는 패턴을 중심으로 되어 있습니다.
+| 모드 | 역할 |
+| --- | --- |
+| `plan` | 정본·의존성·기존 추상화 조사, 변경 범위와 검증 계획 |
+| `implement` | 계획에 따른 구현, 실제 diff 감사, 검증 |
+| `audit` | 코드뿐 아니라 **설계 문서 자체의 자기모순**까지 감사 |
+| `review` | Git 변경 내용과 아키텍처 계약 비교 |
+| `verify` | 실제 테스트 실행과 증거·한계 확인 |
+| `adopt` | 프로젝트의 기존 CI·규칙·검증 도구와 통합 |
 
-- 같은 상태를 두 군데에서 각각 정본처럼 관리하는가
-- 기존 책임을 재사용할 수 있는데 비슷한 추상화를 하나 더 만들고 있는가
-- 등록 순서, 콜백 도착 순서, 컨테이너 순회 순서, 스레드 타이밍이 결과를 바꾸는가
-- 동일성, 권한, 수명, 실패, 재시도 같은 중요한 의미가 코드에만 암묵적으로 숨어 있는가
-- 캐시나 파생 데이터가 어느 순간 원본 데이터처럼 취급되는가
-- 로컬 작업을 취소한 것을 외부 작업까지 끝난 것으로 착각하는가
-- 제한값, 타임아웃, fallback이 근거 없이 생겨나는가
-- 테스트가 정상 경로만 확인하고 계약이 깨지는 경우는 검증하지 않는가
+예시:
 
-특정 프레임워크나 아키텍처 스타일을 강요하지는 않습니다. 프로젝트가 이미 가진 모델을 기준으로 책임과 규칙이 명확한지, 서로 모순되지 않는지, 실제로 검증 가능한지를 따집니다.
+```text
+/architecture-governance:architecture-governance implement 에디터 재구성 이후 대기 요청 고착 문제 수정
+/architecture-governance:architecture-governance audit 설계 문서와 구현의 위반 사항 조사
+/architecture-governance:architecture-governance verify persistence 관련 Probe
+```
 
-## 파일 구성
+모드를 생략하면 기본적으로 `plan`을 사용하되, 요청 의도가 명백히 다른 경우 해당 작업에 맞춥니다.
 
-세부 규칙은 작업 성격에 따라 다섯 파일로 나뉘어 있습니다. 필요한 부분만 읽도록 해 불필요하게 컨텍스트를 늘리지 않습니다.
+## 설계 원칙
 
-- `system.md` — 소유권, 추상화, 런타임 동작, 상태, 영속성, 보안
-- `decisions.md` — 애매한 요구와 엔지니어링/제품 결정 구분
-- `writing.md` — 명세, 용어, 주석, 규범 문장
-- `evidence.md` — 테스트, Probe, readiness, 동시성, 보안, 성능 검증
-- `delivery.md` — 변경 절차, 완료 기준, greenfield 호환성
+1. **정본 우선:** 구현 코드, STATUS/TODO, 스킬 자체가 설계의 최종 권위가 되지 않습니다.
+2. **기존 소유자 재사용:** 새로운 Manager·Store·Registry를 추가하기 전에 현재 책임과 확장 지점을 조사합니다.
+3. **위험도에 비례한 절차:** 단순 수정은 가볍게, 공개 계약이나 영속 상태·보안 경계 변경은 엄격하게 다룹니다.
+4. **반례 중심 검증:** 정상 동작뿐 아니라 실패, 취소, 재시도, 재구성, 오래된 응답 및 금지 상태를 검토합니다.
+5. **실제 변경 감사:** 계획한 파일과 Git diff의 차이를 확인합니다.
+6. **증거 없는 완료 금지:** 구현 파일 존재, 테스트 등록, 실행 성공, 아키텍처 적합성을 서로 다른 주장으로 취급합니다.
 
-`SKILL.md`에는 전체 작업에서 공통으로 쓰는 짧은 절차와 기본 원칙만 들어 있습니다.
+기존 101개 세부 규칙을 즉시 폐기하지 않고, 5개 참조 파일로 유지했습니다. 새로 추가한 5개 워크플로가 이 규칙들을 **언제 어떻게 적용할지** 안내합니다.
 
-## 검증
+## 선택형 검사 도구
+
+Python 3.10 이상과 Git이 필요합니다. 외부 Python 패키지는 필요하지 않습니다. 도구는 자동으로 실행되지 않으며 파일을 수정하지 않습니다.
+
+**변경 범위 비교:**
+
+```bash
+python plugin/skills/architecture-governance/scripts/change_scope.py \
+  --repo /path/to/project --plan /tmp/change-scope.json
+```
+
+계획 JSON의 `allowed_paths`에 들어 있지 않은 파일이 변경되면 검토 대상으로 표시합니다. `protected_paths`에 포함된 파일 변경은 실패로 처리합니다. Staged·unstaged·untracked 파일을 함께 검사합니다. 단, 파일 경로 검사만으로 의미적 설계 위반을 판정할 수는 없습니다.
+
+**실제 실행 증거 기록:**
+
+```bash
+python plugin/skills/architecture-governance/scripts/run_validation.py \
+  --repo /path/to/project --label test --output /tmp/test-evidence.json \
+  -- python -m unittest discover -s tests
+```
+
+명령을 셸 없이 실행하고 결과·Git revision·플랫폼·작업 트리 상태를 JSON으로 기록합니다. 테스트가 성공해도 해당 테스트의 주장만 검증되며, 자동으로 전체 설계 적합성이 보장되지는 않습니다. 더티 작업 트리에서 생성된 결과는 깨끗한 커밋의 재사용 가능한 검증서가 아닙니다.
+
+## CI와 Skill의 책임
+
+이 스킬은 설계를 **조사하고, 변경을 검토하고, 검증 범위를 설명하는 절차**입니다. 자동으로 불리지 않을 수 있으므로 스킬의 지시문만으로 변경 금지를 강제할 수 없습니다.
+
+프로젝트의 실제 아키텍처 Gate, Conformance Test, Probe를 프로젝트 CI와 브랜치 보호 규칙에 연결해야 합니다. 스킬 안에 프로젝트의 정본이나 검증 결과를 복제해서는 안 됩니다.
+
+[프로젝트 도입 절차](plugin/skills/architecture-governance/workflows/adopt.md) · [Engineering Constitution](doctrine/ENGINEERING_CONSTITUTION.md)
+
+## 저장소 검증
 
 ```bash
 python plugin/skills/architecture-governance/scripts/validate.py
 python tests/validate_repository.py
+python -m unittest discover -s tests -p 'test_*.py' -v
 ```
 
-검증 스크립트는 파일 구성이나 규칙 ID의 누락·중복 같은 저장소 수준의 오류를 잡습니다. 특정 설계가 옳다는 것까지 대신 증명해 주지는 않습니다.
-
-## 규칙 목록
-
-[Engineering Constitution](doctrine/ENGINEERING_CONSTITUTION.md)
+이는 플러그인 파일·규칙·도구 동작 검증입니다. 특정 프로젝트의 설계가 올바르다는 증거로 사용해서는 안 됩니다.
 
 ## 라이선스
 
