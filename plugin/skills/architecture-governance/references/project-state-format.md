@@ -43,6 +43,21 @@ contracts = ["runtime.recovery"]
 
 Allowed kinds: `SPEC_DEFECT`, `IMPLEMENTATION_DEFECT`, `IMPLEMENTATION_GAP`, `VALIDATION_GAP`, `PERFORMANCE`, `TASK`. Allowed states: `OPEN`, `IN_PROGRESS`, `BLOCKED`, `RESOLVED`, `CLOSED`. These are **optional tracking metadata**, not specifications. Only import issues actually owned by the target project; don't manufacture a new file merely for this compiler.
 
+### Work Items in the same optional TOML
+
+```toml
+[[work]]
+id = "W-001"
+state = "OPEN"
+owner = "runtime"
+summary = "Define recovery terminal"
+issues = ["SD-001"]
+blocked_by = []
+priority = 1
+```
+
+Work records represent **human decisions about tasks**, not a second copy of an Issue or a Probe requirement. `blocked_by` creates a checked acyclic dependency graph; `priority` is an optional nonnegative integer. Allowed states are OPEN, IN_PROGRESS, BLOCKED, DONE and CANCELLED. Open issues already linked to an open work item are not repeated as separate TODO lines. Issue closure does not automatically promote contract readiness or finish all work.
+
 ### Evidence import
 
 The compiler accepts JSON files emitted by `run_validation.py`. A record's `label` must match a registered Probe ID. Revision and clean-worktree matching determine whether an execution record is current enough to display PASS/FAIL, but **neither PASS nor matching revision proves a Probe's full semantic contract**. Imported evidence files can be forged; use project CI provenance if the distinction matters.
@@ -53,7 +68,7 @@ The current compiler reports:
 - `execution_assessment: BLOCKED/STALE/UNKNOWN/REVIEW_REQUIRED`: summary across required probes.
 - `semantic_readiness: NOT_ASSESSED`: deliberate. The project remains responsible for verifying normative conformance.
 
-`--out` writes only `project-state.json`, `STATUS.generated.md`, `TODO.generated.md` when `--write` is explicitly supplied. Generated content is a navigational/reporting artifact. Do not treat the file `STATUS.generated.md` as the target's authoritative status until the target's own migration and CI freshness checks are in place.
+`--issues` accepts a target-owned TOML file containing `[[issue]]` and/or `[[work]]`; nothing is persisted by the compiler. `--out` writes only `project-state.json`, `STATUS.generated.md`, `TODO.generated.md` when `--write` is explicitly supplied. Generated content is a navigational/reporting artifact. Do not treat the file `STATUS.generated.md` as the target's authoritative status until the target's own migration and CI freshness checks are in place.
 
 ## Proof and limits
 

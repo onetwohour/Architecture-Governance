@@ -168,6 +168,45 @@ class ProjectStateTests(unittest.TestCase):
         self.assertIn("Two " + chr(92) + "| incompatible meanings",
                       (self.output / "TODO.generated.md").read_text())
 
+    def test_work_queue_does_not_duplicate_open_issue(self):
+        tracking = self.root / "tracking.toml"
+        tracking.write_text(
+            "[[issue]]\nid = 'SD-1'\nkind = 'SPEC_DEFECT'\nstate = 'OPEN'\n"
+            "owner = 'core'\nsummary = 'Recovery rule missing'\n"
+            "[[work]]\nid = 'W-1'\nowner = 'core'\nstate = 'OPEN'\n"
+            "summary = 'Close recovery contract'\nissues = ['SD-1']\n"
+            "priority = 1\nblocked_by = []\n"
+        )
+        proc = self.command("--issues", tracking, "--out", self.output, "--write")
+        self.assertEqual(proc.returncode, 0, proc.stderr)
+        state = self.generated()
+        self.assertEqual(state["summary"]["open_work_items"], 1)
+        todo = (self.output / "TODO.generated.md").read_text()
+        self.assertEqual(todo.count("SD-1"), 1)
+        self.assertIn("W-1", todo)
+
+    def test_cyclic_work_dependencies_rejected(self):
+        tracking = self.root / "tracking.toml"
+        tracking.write_text(
+            "[[work]]\nid = 'W-1'\nowner = 'core'\nstate = 'OPEN'\n"
+            "summary = 'First'\nblocked_by = ['W-2']\n"
+            "[[work]]\nid = 'W-2'\nowner = 'core'\nstate = 'BLOCKED'\n"
+            "summary = 'Second'\nblocked_by = ['W-1']\n"
+        )
+        proc = self.command("--issues", tracking)
+        self.assertEqual(proc.returncode, 2)
+        self.assertIn("work dependency cycle", proc.stderr)
+
+    def test_work_cannot_reference_unknown_issue(self):
+        tracking = self.root / "tracking.toml"
+        tracking.write_text(
+            "[[work]]\nid = 'W-1'\nowner = 'core'\nstate = 'OPEN'\n"
+            "summary = 'Unresolved'\nissues = ['SD-999']\n"
+        )
+        proc = self.command("--issues", tracking)
+        self.assertEqual(proc.returncode, 2)
+        self.assertIn("unknown issue SD-999", proc.stderr)
+
     def test_normalized_json_no_project_specific_layout(self):
         snapshot = self.root / "snapshot.json"
         snapshot.write_text(json.dumps({

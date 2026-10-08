@@ -42,7 +42,7 @@ Other projects can export a normalized JSON snapshot from **their own** registri
 python scripts/project_state.py --root /repo --input /tmp/project-snapshot.json --out /tmp/generated --write
 ```
 
-Optional `--issues /path/issues.toml` accepts target-owned `[[issue]]` records; `--evidence-dir` reads captured runner JSON with probe IDs in `label`. The JSON input and `project-state.json` are exchange/projection formats, **not** alternate sources of truth. See `references/project-state-format.md`.
+Optional `--issues /path/tracking.toml` accepts target-owned `[[issue]]` and `[[work]]` records; `--evidence-dir` reads captured runner JSON with probe IDs in `label`. The JSON input and `project-state.json` are exchange/projection formats, **not** alternate sources of truth. See `references/project-state-format.md`.
 
 Only explicit `--write` writes files; the compiler never writes root STATUS.md/TODO.md. `--check` detects stale generated outputs. It validates IDs and references, not owner-document semantics. If the target uses other schemas, write an adapter; do not deform its normative owners to fit this tool.
 

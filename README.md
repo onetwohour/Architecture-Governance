@@ -54,6 +54,8 @@ python plugin/skills/architecture-governance/scripts/impact.py --root /path/to/T
 
 The Note adapter reads `docs/architecture.toml`, `docs/quality/probes.toml`, `docs/quality/readiness.toml` and Rust probe markers. It does not edit the project or assert that marker presence means passing tests. Other projects supply an **exported normalized JSON** through `--input`, not a second manually maintained source. See [project governance workflow](plugin/skills/architecture-governance/workflows/project-governance.md) and [exchange format](plugin/skills/architecture-governance/references/project-state-format.md).
 
+Optional target-owned `[[issue]]` and `[[work]]` records preserve the distinction between problems and planned tasks; Work dependency cycles are rejected. An Issue already assigned to open work is not duplicated in the generated TODO.
+
 The outputs are `project-state.json`, `STATUS.generated.md` and `TODO.generated.md` in the explicitly chosen directory. They are **projections**, not replacements for root STATUS/TODO until an audited migration is complete. Probe commands may be associated with evidence records via `--evidence-dir`, but COMMAND_PASS indicates only individual command success, never verified Probe coverage or semantic readiness. Reverse dependency impact results are **candidates**, not a sound/complete affected-test set.
 
 [Policy tension review](doctrine/POLICY_REVIEW.md) highlights possible conflicting interpretations of the existing 101 rules and the remaining manual evaluation requirements.
