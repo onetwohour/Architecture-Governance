@@ -79,7 +79,7 @@ class GovernanceRuntimeTests(unittest.TestCase):
         evidence = json.loads(out.read_text())
         self.assertEqual(evidence["result"], "PASS")
         self.assertEqual(evidence["exit_code"], 0)
-        self.assertTrue(evidence["reusable_for_clean_commit"])
+        self.assertTrue(evidence["clean_worktree_at_execution"])
 
     def test_validation_fail_is_never_pass(self):
         out = self.root / "fail.json"
@@ -100,7 +100,7 @@ class GovernanceRuntimeTests(unittest.TestCase):
         self.assertEqual(result.returncode, 0)
         evidence = json.loads(out.read_text())
         self.assertEqual(evidence["result"], "PASS")
-        self.assertFalse(evidence["reusable_for_clean_commit"])
+        self.assertFalse(evidence["clean_worktree_at_execution"])
 
     def test_no_command_is_rejected(self):
         out = self.root / "missing.json"

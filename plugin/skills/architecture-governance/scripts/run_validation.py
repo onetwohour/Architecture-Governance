@@ -62,9 +62,8 @@ def execute(repo, command, label, timeout):
         "stdout_tail": stdout[-MAX_LOG:], "stderr_tail": stderr[-MAX_LOG:],
         "proof_scope": "Observed exit status of exactly this command on this worktree",
         "does_not_prove": "semantic correctness, missing negative cases, CI readiness",
-        "reusable_for_clean_commit": bool(exit_code == 0 and not stale
-                                          and not before["worktree_dirty"]
-                                          and not after["worktree_dirty"])
+        "clean_worktree_at_execution": bool(not before["worktree_dirty"]
+                                            and not after["worktree_dirty"])
     }
 
 
